@@ -1,18 +1,19 @@
 package com.ifactory.oddjobs;
 
-import android.app.Activity;
-import android.content.Context;
+
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import org.json.JSONObject;
 
-public class profile extends FragmentActivity {
+
+public class profile extends FragmentActivity implements skill.Communicator {
 private FragmentNavigationDrawer dlDrawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +22,7 @@ private FragmentNavigationDrawer dlDrawer;
         dlDrawer = (FragmentNavigationDrawer) findViewById(R.id.drawerlayout);
         dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.drawerList), R.layout.drawer_item, R.id.mainContent);
         dlDrawer.addNavItem("Profile","Profile", details.class);
+        dlDrawer.addNavItem("Add Product", "Add Product", add_product.class);
         dlDrawer.addNavItem("Edit","Edit Profile", edit.class);
         dlDrawer.addNavItem("Skill List","Skill List", skill.class);
         if(savedInstanceState == null){
@@ -60,5 +62,21 @@ private FragmentNavigationDrawer dlDrawer;
     dlDrawer.getDrawerToggle().onConfigurationChanged(newConfig);
     }
 
+    @Override
+    public void itemSelected(JSONObject Jobject) {
+        product_view p = new product_view();
+        Bundle args = new Bundle();
+        String data = Jobject.toString();
+        args.putString("data", data);
+        p.setArguments(args);
+ FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.layout.activity_profile, p).addToBackStack(null);
+        ft.commit();
 
+
+
+        //fm.replace();
+        //addToBackStack("skill");
+    }
 }

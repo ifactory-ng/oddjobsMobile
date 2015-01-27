@@ -12,20 +12,27 @@ import java.util.ArrayList;
 public class SkillModel {
     public String Title;
     public String id;
+    JSONObject jb;
     public SkillModel(JSONObject object) {
         try
         {
-        this.Title = object.getString("tag_name");
+        this.Title = object.getString("product_name");
             this.id = object.getString("id");
+            this.jb = object;
     }
     catch(JSONException e){
         e.printStackTrace();
     }
 
 }
-public String returnId(){
-    return id;
+public int returnId(){
+    int i = Integer.parseInt(id);
+    return i;
 }
+    public JSONObject passJson(){
+        return jb;
+    }
+
     public static ArrayList<SkillModel> getData(JSONArray jObject) {
         ArrayList<SkillModel> model = new ArrayList<SkillModel>();
         for(int i = 0; i < jObject.length(); i++){

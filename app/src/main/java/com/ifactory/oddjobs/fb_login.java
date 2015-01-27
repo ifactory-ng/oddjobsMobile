@@ -56,7 +56,7 @@ public class fb_login extends Activity {
     Button login_btn;
     Facebook fb = new Facebook(APP_ID);
     String email;
-
+    Intent i;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     AsyncFacebookRunner mAsyn = new AsyncFacebookRunner(fb);
@@ -90,8 +90,9 @@ public class fb_login extends Activity {
                 fbAuth();
             }
         });
-     //   Intent i = new Intent(this, profile.class);
-       // startActivity(i);
+  i = new Intent(this, profile.class);
+
+
     }
 
 
@@ -136,7 +137,7 @@ editor.putString("access_token", fb.getAccessToken());
                             editor.putString("email", email);
                             editor.putString("id", id);
                             httpclient = new DefaultHttpClient();
-                            httpPost = new HttpPost("http://oddjobs.herokuapps.com/profile/authenticate");
+                            httpPost = new HttpPost(routes.AUTHENTICATE);
                             try {
                                 httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
                                 httpPost.setEntity(new UrlEncodedFormEntity(value));
@@ -152,6 +153,8 @@ editor.putString("access_token", fb.getAccessToken());
                                     @Override
                                     public void run() {
                                         Toast.makeText(getApplicationContext(), "accessing account at oddjobs" + email + app_id, Toast.LENGTH_SHORT);
+                                        startActivity(i);
+
                                     }
                                 });
                             } catch (JSONException e) {

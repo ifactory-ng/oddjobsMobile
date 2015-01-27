@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -31,6 +33,11 @@ public class skill extends ListFragment{
     ArrayList<SkillModel> skill;
     Jobject jo;
     ListView lv;
+    Communicator com;
+    public interface Communicator {
+        public void itemSelected(JSONObject Jobject);
+
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -51,8 +58,8 @@ lv = (ListView)v.findViewById(R.id.listView);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-             // SkillModel md = (SkillModel) (getListAdapter()).getItem(position);
-             //   int id = md.returnId();
+              SkillModel md = (SkillModel) (getListAdapter()).getItem(position);
+              com.itemSelected(md.passJson());
             }
         });
         lv.setAdapter(mAdapt);
@@ -76,6 +83,13 @@ lv = (ListView)v.findViewById(R.id.listView);
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
+        try {
+            com = (Communicator) activity;
+        }
+        catch (ClassCastException e){
+            throw new ClassCastException(activity.toString() + " must implement Communicator interface");
+        }
     }
 
     @Override
