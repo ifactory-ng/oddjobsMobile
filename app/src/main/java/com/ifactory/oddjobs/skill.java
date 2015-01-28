@@ -1,6 +1,8 @@
 package com.ifactory.oddjobs;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -33,6 +35,7 @@ public class skill extends ListFragment{
     ArrayList<SkillModel> skill;
     Jobject jo;
     ListView lv;
+    String id;
     Communicator com;
     public interface Communicator {
         public void itemSelected(JSONObject Jobject);
@@ -42,6 +45,9 @@ public class skill extends ListFragment{
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        Context c = getActivity();
+        SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+        id = editor.getString(c.getString(R.string.preference_file_name), "id");
 
     }
 
@@ -51,8 +57,7 @@ public class skill extends ListFragment{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.skill_list, container, false);
 lv = (ListView)v.findViewById(R.id.listView);
-         jo = new Jobject("");
-
+         jo = new Jobject(routes.GET_USER_PRODUCTS + id);
          skill = SkillModel.getData(jo.obj());
         mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

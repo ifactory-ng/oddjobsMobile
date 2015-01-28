@@ -30,7 +30,6 @@ public class Jobject implements Runnable{
         this.URI = URI;
     }
 
-
     @Override
     public void run() {
         httpclient = new DefaultHttpClient();

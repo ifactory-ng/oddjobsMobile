@@ -131,7 +131,7 @@ private class load_details extends AsyncTask<String, Void, String>{
        SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
          id = editor.getString(c.getString(R.string.preference_file_name), "id");
         HttpClient httpclient = new DefaultHttpClient();
-       HttpGet httpGet = new HttpGet("localhost:3000/profile/"+id);
+       HttpGet httpGet = new HttpGet(routes.PROFILE + id);
         try {
             HttpResponse res = httpclient.execute(httpGet);
              result = EntityUtils.toString(res.getEntity());
