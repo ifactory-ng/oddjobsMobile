@@ -45,12 +45,14 @@ EditText add, locale, tag, desc, p_name;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        add = (EditText) container.findViewById(R.id.add);
-        locale = (EditText) container.findViewById(R.id.loc);
-        tag = (EditText) container.findViewById(R.id.tag_name);
-        desc = (EditText) container.findViewById(R.id.desc);
-        p_name = (EditText) container.findViewById(R.id.product_name);
-        Button submit = (Button) container.findViewById(R.id.submit);
+        View v = inflater.inflate(R.layout.add_product,container, false);
+
+        add = (EditText) v.findViewById(R.id.add);
+        locale = (EditText) v.findViewById(R.id.loc);
+        tag = (EditText) v.findViewById(R.id.tag_name);
+        desc = (EditText) v.findViewById(R.id.desc);
+        p_name = (EditText) v.findViewById(R.id.product_name);
+        Button submit = (Button) v.findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -87,7 +89,7 @@ EditText add, locale, tag, desc, p_name;
 
             }
         });
-        return  inflater.inflate(R.layout.add_product, container, false);
+        return  v;
 
     }
 }

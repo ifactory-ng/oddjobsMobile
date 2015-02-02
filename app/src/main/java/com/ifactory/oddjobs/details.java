@@ -29,24 +29,20 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link details.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link details#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
-public class details extends android.support.v4.app.Fragment {
+public class details extends android.support.v4.app.Fragment{
 
 
     //private OnFragmentInteractionListener mListener;
     TextView user_email, user_name, user_about, user_phone, user_address, user_location;
-    Context context;
+    Context c;
     String email;
     String name;
     String location;
@@ -57,37 +53,50 @@ public class details extends android.support.v4.app.Fragment {
     String result;
     ImageView pics;
     String id;
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment details.
-     */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         context = getActivity();
+         c = getActivity();
+        SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+        id = editor.getString("id", "id");
+
+        new load_details(c).execute();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        new load_details(context).execute();
-        user_email = (TextView) container.findViewById(R.id.email);
-       user_name = (TextView) container.findViewById(R.id.name);
-        user_about = (TextView)container.findViewById(R.id.about);
+        View v = inflater.inflate(R.layout.details, container, false);
+FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
+    @Override
+    public Bitmap call() throws Exception {
+        Bitmap pic = getPhotoFacebook(id);
+        return pic;
+    }
 
-        user_location = (TextView)container.findViewById(R.id.location);
+}); try {
+            Bitmap pic = future.get();
+            pics.setImageBitmap(pic);
+        }
+        catch (InterruptedException i){
+            i.printStackTrace();
+        }
+        catch (ExecutionException e){
+            e.printStackTrace();
+        }
+            user_email = (TextView) v.findViewById(R.id.email);
+       user_name = (TextView) v.findViewById(R.id.name);
+        user_about = (TextView)v.findViewById(R.id.about);
 
-        user_address = (TextView)container.findViewById(R.id.address);
+        user_location = (TextView) v.findViewById(R.id.location);
 
-        user_phone = (TextView)container.findViewById(R.id.phone);
+        user_address = (TextView) v.findViewById(R.id.address);
 
-        return inflater.inflate(R.layout.fragment_details, container, false);
+        user_phone = (TextView) v.findViewById(R.id.phone);
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -106,81 +115,87 @@ public class details extends android.support.v4.app.Fragment {
     //    mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
 
 
-private class load_details extends AsyncTask<String, Void, String>{
-    Bitmap pic;
+
+    private class load_details extends AsyncTask<String, Void, String>{
+        Bitmap pic;
         Context c;
-    public load_details(Context c){
-        this.c = c;
+        public load_details(Context c){
+            this.c = c;
 
+        }
+        @Override
+        protected String doInBackground(String... params) {
+
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(routes.PROFILE + id);
+            try {
+                HttpResponse res = httpclient.execute(httpGet);
+                result = EntityUtils.toString(res.getEntity());
+                getPhotoFacebook(id);
+            }
+
+            catch (IOException i){
+                i.printStackTrace();
+            }
+
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                //JSONArray rs = new JSONArray(s);
+                jObj = new JSONObject(s);
+                email = jObj.getString("email");
+                name = jObj.getString("name");
+                //location = jObj.getString("location");
+                //  phone = jObj.getString("phone");
+                //about = jObj.getString("about");
+                //address = jObj.getString("address");
+                user_email.setText(email);
+                user_name.setText(name);
+                ///user_about.setText(about);
+                //user_location.setText(location);
+                //user_address.setText(address);
+                //user_phone.setText(phone);
+                //pics.setImageBitmap(pic);
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
-    @Override
-    protected String doInBackground(String... params) {
 
-       SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
-         id = editor.getString(c.getString(R.string.preference_file_name), "id");
-        HttpClient httpclient = new DefaultHttpClient();
-       HttpGet httpGet = new HttpGet(routes.PROFILE + id);
+    public Bitmap getPhotoFacebook(final String id) {
+
+        Bitmap bitmap=null;
+        final String nomimg = "https://graph.facebook.com/"+id+"/picture?type=large";
+        URL imageURL = null;
+
         try {
-            HttpResponse res = httpclient.execute(httpGet);
-             result = EntityUtils.toString(res.getEntity());
-        }
-
-        catch (IOException i){
-            i.printStackTrace();
-        }
-        pic = getUserPic(id);
-        return result;
-    }
-
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        try {
-            JSONArray rs = new JSONArray(s);
-            jObj = rs.getJSONObject(0);
-            email = jObj.getString("email");
-            //name = jObj.getString("name");
-            //location = jObj.getString("location");
-            //phone = jObj.getString("phone");
-            //about = jObj.getString("about");
-            //address = jObj.getString("address");
-            user_email.setText(email);
-            user_name.setText(name);
-            user_about.setText(about);
-            user_location.setText(location);
-            user_address.setText(address);
-            user_phone.setText(phone);
-            pics.setImageBitmap(pic);
-        }
-        catch (JSONException e) {
+            imageURL = new URL(nomimg);
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-    }
-}
-    public   Bitmap  getUserPic( String  userID) {
-        String  imageURL;
-        Bitmap bitmap =  null;
-        Log.d("Imageview", "Loading Picture");
-        imageURL = "http://graph.facebook.com/"+userID+"/picture?type=medium";
-        try  {
-            bitmap =  BitmapFactory.decodeStream((InputStream) new
-                    URL(imageURL).getContent());
-        }  catch  ( Exception  e) {
-            Log .d("Imageview", "Loading Picture FAILED");
+
+        try {
+            HttpURLConnection connection = (HttpURLConnection) imageURL.openConnection();
+            connection.setDoInput(true);
+            connection.setInstanceFollowRedirects( true );
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+            //img_value.openConnection().setInstanceFollowRedirects(true).getInputStream()
+            bitmap = BitmapFactory.decodeStream(inputStream);
+
+        } catch (IOException e) {
+
             e.printStackTrace();
         }
-        return  bitmap;
+        return bitmap;
+
     }
 }

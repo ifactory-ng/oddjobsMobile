@@ -50,20 +50,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class fb_login extends Activity {
+public class fb_login extends Activity{
     //private static final List<String> PERMISSIONS = Arrays.asList("email");
-    String APP_ID = "747991285264118";
+    static final String APP_ID = "747991285264118";
     Button login_btn;
     Facebook fb = new Facebook(APP_ID);
-    String email;
-    Intent i;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
-    AsyncFacebookRunner mAsyn = new AsyncFacebookRunner(fb);
+    //String email;
+//    Intent i;
+//    AsyncFacebookRunner mAsyn = new AsyncFacebookRunner(fb);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fb_login);
+        sharedPref = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.ifactory.oddjobs",
@@ -80,42 +82,27 @@ public class fb_login extends Activity {
         }
 
         //Log.d("access", fb.getAccessToken());
-        sharedPref = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE);
-         editor = sharedPref.edit();
+
 
         login_btn = (Button) findViewById(R.id.auth);
-        login_btn.setOnClickListener(new View.OnClickListener() {
+        login_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fbAuth();
+                fbAuth(v);
             }
         });
-  i = new Intent(this, profile.class);
+
 
 
     }
 
 
-public void fbAuth(){
-String access_token = sharedPref.getString("access_token", null);
-    long expires = sharedPref.getLong("access_expires", 0);
-    if(access_token != null){
-        fb.setAccessToken(access_token);
-    }
-    if(expires !=0){
-        fb.setAccessExpires(expires);
-    }
-    if(!fb.isSessionValid()) {
-
-        fb.authorize(this, new String[]{"publish_stream"}, new Facebook.DialogListener() {
+public void fbAuth(final View v){
+ fb.authorize(this, new String[]{"publish_stream", "email"}, new Facebook.DialogListener() {
             @Override
             public void onComplete(Bundle values) {
-                Log.d("access2", fb.getAccessToken());
-editor.putString("access_token", fb.getAccessToken());
-                editor.putLong("access_expires", fb.getAccessExpires());
-                editor.commit();
-
-                mAsyn.request("me", new RequestListener(){
+               AsyncFacebookRunner mAsyn = new AsyncFacebookRunner(fb);
+                mAsyn.request("me", new AsyncFacebookRunner.RequestListener(){
 
                     @Override
                     public void onComplete(String response, Object state) {
@@ -126,40 +113,38 @@ editor.putString("access_token", fb.getAccessToken());
                         try {
                             JSONObject profile = new JSONObject(json);
                             String name = profile.getString("name");
+                            Log.d("name", name);
                             String id = profile.getString("id");
-                            email = profile.getString("email");
+                            String email = profile.getString("email");
                             List<NameValuePair> value = new ArrayList<NameValuePair>();
                             value.add(new BasicNameValuePair("name", name));
                             value.add(new BasicNameValuePair("id", id));
                             value.add(new BasicNameValuePair("email", email));
+                            Log.d("json ", id);
                 /*add facebook values to sharepreferences for application level access
                  */
                             editor.putString("email", email);
                             editor.putString("id", id);
+                            String t = sharedPref.getString("id", null);
+                            Log.d("j", t);
+                            editor.commit();
                             httpclient = new DefaultHttpClient();
                             httpPost = new HttpPost(routes.AUTHENTICATE);
-                            try {
-                                httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-                                httpPost.setEntity(new UrlEncodedFormEntity(value));
-                                HttpResponse res = httpclient.execute(httpPost);
-                                String result = EntityUtils.toString(res.getEntity());
-                                JSONArray rs = new JSONArray(result);
-                                JSONObject rss = rs.getJSONObject(0);
-                                Log.d("json response", result);
-                                email = rss.getString("email");
-                                final String app_id = rss.getString("authID");
 
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(getApplicationContext(), "accessing account at oddjobs" + email + app_id, Toast.LENGTH_SHORT);
-                                        startActivity(i);
+                            httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+                            httpPost.setEntity(new UrlEncodedFormEntity(value));
+                            HttpResponse res = httpclient.execute(httpPost);
+                            String result = EntityUtils.toString(res.getEntity());
+                            Log.d("json response", result);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "accessing account at oddjobs" , Toast.LENGTH_SHORT);
 
-                                    }
-                                });
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+
+                                }
+                            });
+
                         } catch (ClientProtocolException e) {
                             e.printStackTrace();
                         } catch (UnsupportedEncodingException e) {
@@ -193,6 +178,10 @@ editor.putString("access_token", fb.getAccessToken());
                     }
                 });
 
+                Intent i = new Intent(v.getContext(), profile.class);
+
+                startActivity(i);
+
             }
 
             @Override
@@ -212,7 +201,7 @@ editor.putString("access_token", fb.getAccessToken());
         });
     }
 
-}
+
 
     @Override
     protected void onResume() {
@@ -242,5 +231,6 @@ editor.putString("access_token", fb.getAccessToken());
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+
     }
 }

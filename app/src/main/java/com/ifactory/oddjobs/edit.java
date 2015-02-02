@@ -31,7 +31,7 @@ import java.util.List;
 public class edit extends Fragment {
     Button save;
     String names, locations, abouts, addresss, phones;
-
+    EditText phone, address, about, location;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,15 +41,15 @@ public class edit extends Fragment {
     @Override
         public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup
         container, Bundle savedInstanceState){
+        View v = inflater.inflate(R.layout.edit, container, false);
 
-        EditText location = (EditText) container.findViewById(R.id.location);
-        this.locations = location.getText().toString();
-        EditText about = (EditText) container.findViewById(R.id.editText2);
-        this.abouts = about.getText().toString();
-        EditText address = (EditText) container.findViewById(R.id.address);
-        this.addresss = address.getText().toString();
-        EditText phone = (EditText) container.findViewById(R.id.phone);
-        this.phones = phone.getText().toString();
+         location = (EditText) v.findViewById(R.id.location);
+
+         about = (EditText) v.findViewById(R.id.editText2);
+
+        address = (EditText) v.findViewById(R.id.address);
+         phone = (EditText) v.findViewById(R.id.phone);
+
         save = (Button) container.findViewById(R.id.button);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +57,10 @@ public class edit extends Fragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        locations = location.getText().toString();
+                        abouts = about.getText().toString();
+                        addresss = address.getText().toString();
+                        phones = phone.getText().toString();
                         List<NameValuePair> value = new ArrayList<NameValuePair>();
                         value.add(new BasicNameValuePair("location", locations));
                         value.add(new BasicNameValuePair("about", abouts));
@@ -99,7 +103,7 @@ public class edit extends Fragment {
         });
 
 
-        return inflater.inflate(R.layout.edit, container, false);
+        return v;
         }
 
 }
