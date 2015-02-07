@@ -15,15 +15,16 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by smile on 11/8/14.
  */
-public class Jobject implements Runnable{
-    private HttpGet get;
+public class Jobject implements Callable<JSONArray> {
+    //private HttpGet get;
     private String URI;
-    HttpClient httpclient;
-    JSONArray rs;
+    //HttpClient httpclient;
+    //JSONArray rs;
 
     public Jobject(String URI) {
 
@@ -31,24 +32,13 @@ public class Jobject implements Runnable{
     }
 
     @Override
-    public void run() {
-        httpclient = new DefaultHttpClient();
-        get = new HttpGet(URI);
-        try {
-            HttpResponse response = httpclient.execute(get);
-            String result = EntityUtils.toString(response.getEntity());
-            rs = new JSONArray(result);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public JSONArray call() throws Exception {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpGet get = new HttpGet(URI);
 
-    public JSONArray obj() {
-        run();
+        HttpResponse response = httpclient.execute(get);
+        String result = EntityUtils.toString(response.getEntity());
+       JSONArray rs = new JSONArray(result);
         return rs;
     }
 }

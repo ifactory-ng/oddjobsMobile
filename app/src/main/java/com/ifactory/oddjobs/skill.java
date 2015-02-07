@@ -14,9 +14,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 
 /**
@@ -57,8 +62,22 @@ public class skill extends ListFragment{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.skill_list, container, false);
 lv = (ListView)v.findViewById(R.id.listView);
-         jo = new Jobject(routes.GET_USER_PRODUCTS + id);
-         skill = SkillModel.getData(jo.obj());
+        JSONArray ja = null;
+         //jo = new Jobject(routes.GET_USER_PRODUCTS + id);
+        FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.GET_USER_PRODUCTS + id));
+        ExecutorService es = Executors.newSingleThreadExecutor();
+        es.submit(Jarray);
+        try{
+           ja = Jarray.get();
+        }
+        catch (InterruptedException i){
+            i.printStackTrace();
+        }
+        catch (ExecutionException e){
+            e.printStackTrace();
+        }
+        es.shutdown();
+         skill = SkillModel.getData(ja);
         mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

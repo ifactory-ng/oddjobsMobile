@@ -122,7 +122,7 @@ public void fbAuth(final View v){
                             value.add(new BasicNameValuePair("email", email));
                             Log.d("json ", id);
                 /*add facebook values to sharepreferences for application level access
-                 */
+                 */         editor.clear();
                             editor.putString("email", email);
                             editor.putString("id", id);
                             String t = sharedPref.getString("id", null);

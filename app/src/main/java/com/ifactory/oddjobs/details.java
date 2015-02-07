@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.android.Facebook;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -34,6 +36,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 
@@ -51,8 +55,9 @@ public class details extends android.support.v4.app.Fragment{
     String address;
     JSONObject jObj;
     String result;
-    ImageView pics;
+    ImageView px;
     String id;
+    Bitmap pic;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,19 @@ public class details extends android.support.v4.app.Fragment{
          c = getActivity();
         SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
         id = editor.getString("id", "id");
-
+        FutureTask<Bitmap> task = new FutureTask<Bitmap>(new Facebook_pic(id));
+        ExecutorService es = Executors.newSingleThreadExecutor();
+        es.submit(task);
+        try{
+            pic = task.get();
+        }
+        catch (InterruptedException i){
+            i.printStackTrace();
+        }
+        catch (ExecutionException e){
+            e.printStackTrace();
+        }
+        es.shutdown();
         new load_details(c).execute();
     }
 
@@ -69,7 +86,7 @@ public class details extends android.support.v4.app.Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.details, container, false);
-FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
+  /*FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
     @Override
     public Bitmap call() throws Exception {
         Bitmap pic = getPhotoFacebook(id);
@@ -78,7 +95,7 @@ FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
 
 }); try {
             Bitmap pic = future.get();
-            pics.setImageBitmap(pic);
+
         }
         catch (InterruptedException i){
             i.printStackTrace();
@@ -86,7 +103,7 @@ FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
         catch (ExecutionException e){
             e.printStackTrace();
         }
-            user_email = (TextView) v.findViewById(R.id.email);
+ */           user_email = (TextView) v.findViewById(R.id.email);
        user_name = (TextView) v.findViewById(R.id.name);
         user_about = (TextView)v.findViewById(R.id.about);
 
@@ -95,7 +112,8 @@ FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
         user_address = (TextView) v.findViewById(R.id.address);
 
         user_phone = (TextView) v.findViewById(R.id.phone);
-
+        px = (ImageView) v.findViewById(R.id.pro_pic);
+        px.setImageBitmap(pic);
         return v;
     }
 
@@ -119,7 +137,7 @@ FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
 
 
     private class load_details extends AsyncTask<String, Void, String>{
-        Bitmap pic;
+    //    Bitmap pic;
         Context c;
         public load_details(Context c){
             this.c = c;
@@ -133,7 +151,7 @@ FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
             try {
                 HttpResponse res = httpclient.execute(httpGet);
                 result = EntityUtils.toString(res.getEntity());
-                getPhotoFacebook(id);
+          //      getPhotoFacebook(id);
             }
 
             catch (IOException i){
@@ -170,26 +188,11 @@ FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
         }
     }
 
-    public Bitmap getPhotoFacebook(final String id) {
-
+   /* public Bitmap getPhotoFacebook(final String id) {
         Bitmap bitmap=null;
-        final String nomimg = "https://graph.facebook.com/"+id+"/picture?type=large";
-        URL imageURL = null;
-
         try {
-            imageURL = new URL(nomimg);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
 
-        try {
-            HttpURLConnection connection = (HttpURLConnection) imageURL.openConnection();
-            connection.setDoInput(true);
-            connection.setInstanceFollowRedirects( true );
-            connection.connect();
-            InputStream inputStream = connection.getInputStream();
-            //img_value.openConnection().setInstanceFollowRedirects(true).getInputStream()
-            bitmap = BitmapFactory.decodeStream(inputStream);
+
 
         } catch (IOException e) {
 
@@ -197,5 +200,33 @@ FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
         }
         return bitmap;
 
+    }*/
+
+    public static class Facebook_pic implements Callable<Bitmap>{
+
+        String id;
+
+    public Facebook_pic(String id){
+        this.id = id;
+    }
+
+        @Override
+        public Bitmap call() throws Exception {
+
+            Bitmap bitmap;
+
+            final String nomimg = "https://graph.facebook.com/"+id+"/picture?type=large";
+            URL imageURL = new URL(nomimg);
+            Log.d("url", nomimg);
+            HttpURLConnection connection = (HttpURLConnection) imageURL.openConnection();
+            connection.setDoInput(true);
+            connection.setInstanceFollowRedirects( true );
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+            bitmap = BitmapFactory.decodeStream(inputStream);
+            return bitmap;
+
+
+        }
     }
 }
