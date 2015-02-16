@@ -12,12 +12,20 @@ import java.util.ArrayList;
 public class SkillModel {
     public String Title;
     public String id;
+    String location;
+    String name;
+    int rating;
+    String desc;
     JSONObject jb;
     public SkillModel(JSONObject object) {
         try
         {
-        this.Title = object.getString("product_name");
+            this.name = object.getString("name");
+        this.Title = object.getString("SkillName");
             this.id = object.getString("id");
+            this.desc = object.getString("Description");
+            this.location = object.getString("Location");
+            this.rating = object.getInt("Rating");
             this.jb = object;
     }
     catch(JSONException e){

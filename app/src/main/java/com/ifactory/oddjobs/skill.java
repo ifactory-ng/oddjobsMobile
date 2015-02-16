@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class skill extends ListFragment{
  //   private OnFragmentInteractionListener mListener;
     private pro_adapter mAdapt;
     ArrayList<SkillModel> skill;
-    Jobject jo;
+    //Jobject jo;
     ListView lv;
     String id;
     Communicator com;
@@ -77,7 +78,13 @@ lv = (ListView)v.findViewById(R.id.listView);
             e.printStackTrace();
         }
         es.shutdown();
+
+        Log.d("test", ja.toString());
+
          skill = SkillModel.getData(ja);
+        if(skill.isEmpty()){
+
+        }
         mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

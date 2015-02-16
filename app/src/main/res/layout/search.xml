@@ -13,60 +13,45 @@
     android:layout_height="200dp"
     card_view:cardElevation="12dp"
     card_view:cardCornerRadius="4dp">
-
-
-</android.support.v7.widget.CardView>
-
-    <ImageView
-        android:layout_width="140dp"
-        android:layout_height="125dp"
-        android:id="@+id/imageView"
-        android:background="#ff293b4b"
-        android:layout_marginLeft="6dp"
-        android:layout_alignTop="@+id/card_view"
-        android:layout_alignLeft="@+id/card_view"
-        android:layout_alignStart="@+id/card_view" />
-
-    <RatingBar
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ratingBar2"
-        android:layout_alignBottom="@+id/card_view"
-        android:layout_centerHorizontal="true" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/user_name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@+id/locale"
+        android:layout_alignStart="@+id/locale" />
 
     <TextView
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
 
         android:id="@+id/locale"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_alignRight="@+id/card_view"
-        android:layout_alignEnd="@+id/card_view"
-        android:layout_marginBottom="40dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/user_name"
-        android:layout_above="@+id/ratingBar2"
-        android:layout_alignRight="@+id/card_view"
-        android:layout_alignEnd="@+id/card_view"
-        android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/tag"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_alignRight="@+id/ratingBar2"
-        android:layout_alignEnd="@+id/ratingBar2"
-        android:background="#ff0b0a1b" />
+        android:id="@+id/description"
+        android:layout_marginLeft="20dp"
+        android:layout_alignStart="@+id/locale"
+        android:layout_marginTop="100dp" />
+
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/ratingBar2"
+        android:layout_centerHorizontal="true" />
+</android.support.v7.widget.CardView>
 </RelativeLayout>

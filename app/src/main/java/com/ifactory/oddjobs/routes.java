@@ -10,4 +10,6 @@ public class  routes {
     static final String ADD_PRODUCT = URI + "/profile/Product/";
     static final String AUTHENTICATE = URI + "/profile/authenticate/";
     static final String GET_USER_PRODUCTS = URI + "/profile/products/";
+    static final String GET_SEARCH_RESULTS = URI + "/search/?q=";
+    static final String BY_LIMIT = URI + "/default";
 }

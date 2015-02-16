@@ -66,6 +66,7 @@ public class fb_login extends Activity{
         setContentView(R.layout.activity_fb_login);
         sharedPref = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE);
         editor = sharedPref.edit();
+        editor.clear();
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.ifactory.oddjobs",
