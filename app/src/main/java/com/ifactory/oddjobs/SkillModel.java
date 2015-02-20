@@ -21,11 +21,11 @@ public class SkillModel {
         try
         {
             this.name = object.getString("name");
-        this.Title = object.getString("SkillName");
-            this.id = object.getString("id");
+//        this.Title = object.getString("SkillName");
+            this.id = object.getString("_id");
             this.desc = object.getString("Description");
             this.location = object.getString("Location");
-            this.rating = object.getInt("Rating");
+  //          this.rating = object.getInt("Rating");
             this.jb = object;
     }
     catch(JSONException e){
@@ -33,10 +33,14 @@ public class SkillModel {
     }
 
 }
-public int returnId(){
+    public String toString(){
+        return name;
+    }
+
+/*public int returnId(){
     int i = Integer.parseInt(id);
     return i;
-}
+}*/
     public JSONObject passJson(){
 
         return jb;

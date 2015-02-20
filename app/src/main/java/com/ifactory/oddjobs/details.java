@@ -65,6 +65,7 @@ public class details extends android.support.v4.app.Fragment{
          c = getActivity();
         SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
         id = editor.getString("id", "id");
+        //id ="963176113698271";
         FutureTask<Bitmap> task = new FutureTask<Bitmap>(new Facebook_pic(id));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(task);

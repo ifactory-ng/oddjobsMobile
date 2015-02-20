@@ -32,7 +32,12 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
             user_name = (TextView) v.findViewById(R.id.user_name);
             locale = (TextView) v.findViewById(R.id.locale);
             rating = (RatingBar) v.findViewById(R.id.ratingBar2);
-
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    
+                }
+            });
         }
     }
 

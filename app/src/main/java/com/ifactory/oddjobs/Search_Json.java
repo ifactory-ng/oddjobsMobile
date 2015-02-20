@@ -55,7 +55,8 @@ public class Search_Json  extends Fragment {
         mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
         mRecyclerView.setHasFixedSize(true);
 
-        mlayoutManager = new LinearLayoutManager(getActivity());
+        mlayoutManager = new LinearLayoutManager(v.getContext());
+        mRecyclerView.setLayoutManager(mlayoutManager);
         mAdapter = new myAdapter(skill);
         mRecyclerView.setAdapter(mAdapter);
         search_query = (TextView) v.findViewById(R.id.search_query);
@@ -78,10 +79,14 @@ public class Search_Json  extends Fragment {
                 }
                 es.shutdown();
                 skill = SkillModel.getData(ja);
+                mAdapter.notifyDataSetChanged();
+
 
 
             }
         });
+        
+
         return v;
     }
 

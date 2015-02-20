@@ -1,45 +1,14 @@
 package com.ifactory.oddjobs;
 
-
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.facebook.Session;
-import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-
-import org.apache.http.HttpException;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class profile extends FragmentActivity implements skill.Communicator {
@@ -55,12 +24,13 @@ private FragmentNavigationDrawer dlDrawer;
         setContentView(R.layout.activity_profile);
         dlDrawer = (FragmentNavigationDrawer) findViewById(R.id.drawerlayout);
         dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.drawerList), R.layout.drawer_item, R.id.mainContent);
+        dlDrawer.addNavItem("Search", "Search", Search_Json.class);
         dlDrawer.addNavItem("Profile","Profile", details.class);
         dlDrawer.addNavItem("Add Product", "Add Product", add_product.class);
         dlDrawer.addNavItem("Edit","Edit Profile", edit.class);
         dlDrawer.addNavItem("Skill List","Skill List", skill.class);
         if(savedInstanceState == null){
-            dlDrawer.selectDrawerItem(0);
+            dlDrawer.selectDrawerItem(1);
         }
     }
 

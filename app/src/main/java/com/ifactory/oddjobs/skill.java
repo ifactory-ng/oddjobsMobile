@@ -2,11 +2,14 @@ package com.ifactory.oddjobs;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,6 +46,7 @@ public class skill extends ListFragment{
     ListView lv;
     String id;
     Communicator com;
+    JSONArray ja = null;
     public interface Communicator {
         public void itemSelected(JSONObject Jobject);
 
@@ -53,23 +57,14 @@ public class skill extends ListFragment{
         super.onCreate(savedInstanceState);
         Context c = getActivity();
         SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
-        id = editor.getString(c.getString(R.string.preference_file_name), "id");
-
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.skill_list, container, false);
-lv = (ListView)v.findViewById(R.id.listView);
-        JSONArray ja = null;
-         //jo = new Jobject(routes.GET_USER_PRODUCTS + id);
+      id = editor.getString(c.getString(R.string.preference_file_name), "id");
+        //jo = new Jobject(routes.GET_USER_PRODUCTS + id);
+     //   id="963176113698271";
         FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.GET_USER_PRODUCTS + id));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(Jarray);
         try{
-           ja = Jarray.get();
+            ja = Jarray.get();
         }
         catch (InterruptedException i){
             i.printStackTrace();
@@ -79,12 +74,24 @@ lv = (ListView)v.findViewById(R.id.listView);
         }
         es.shutdown();
 
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.skill_list, container, false);
+lv = (ListView)v.findViewById(android.R.id.list);
+
+
         Log.d("test", ja.toString());
+/*            if(ja.isNull(0)){
 
+
+
+            }*/
          skill = SkillModel.getData(ja);
-        if(skill.isEmpty()){
 
-        }
         mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

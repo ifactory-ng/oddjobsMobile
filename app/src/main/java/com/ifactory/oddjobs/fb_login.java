@@ -66,7 +66,7 @@ public class fb_login extends Activity{
         setContentView(R.layout.activity_fb_login);
         sharedPref = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE);
         editor = sharedPref.edit();
-        editor.clear();
+      //  editor.clear();
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "com.ifactory.oddjobs",
@@ -98,11 +98,11 @@ public class fb_login extends Activity{
     }
 
 
-public void fbAuth(final View v){
- fb.authorize(this, new String[]{"publish_stream", "email"}, new Facebook.DialogListener() {
+    public void fbAuth(final View v){
+        fb.authorize(this, new String[]{"publish_stream", "email"}, new Facebook.DialogListener() {
             @Override
             public void onComplete(Bundle values) {
-               AsyncFacebookRunner mAsyn = new AsyncFacebookRunner(fb);
+                AsyncFacebookRunner mAsyn = new AsyncFacebookRunner(fb);
                 mAsyn.request("me", new AsyncFacebookRunner.RequestListener(){
 
                     @Override
@@ -126,9 +126,7 @@ public void fbAuth(final View v){
                  */         editor.clear();
                             editor.putString("email", email);
                             editor.putString("id", id);
-                            String t = sharedPref.getString("id", null);
-                            Log.d("j", t);
-                            editor.commit();
+                            editor.apply();
                             httpclient = new DefaultHttpClient();
                             httpPost = new HttpPost(routes.AUTHENTICATE);
 

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class pro_adapter extends ArrayAdapter<SkillModel> {
     public pro_adapter(Context context, ArrayList<SkillModel> title){
 
-        super(context, R.layout.fragment_skill_list, title);
+        super(context, R.layout.fragment_skill_list, R.id.listItem, title);
     }
 
     @Override
@@ -24,8 +24,9 @@ public class pro_adapter extends ArrayAdapter<SkillModel> {
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_skill_list, parent, false);
             }
+
         TextView skillTitle = (TextView) convertView.findViewById(R.id.listItem);
-        skillTitle.setText(model.Title);
+        skillTitle.setText(model.name);
         TextView id = (TextView) convertView.findViewById(R.id.listItem2);
         id.setText(model.id);
         return super.getView(position, convertView, parent);
