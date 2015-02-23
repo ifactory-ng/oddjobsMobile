@@ -56,10 +56,20 @@ public class skill extends ListFragment{
 
         super.onCreate(savedInstanceState);
         Context c = getActivity();
-        SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
-      id = editor.getString(c.getString(R.string.preference_file_name), "id");
+       // SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+      //id = editor.getString(c.getString(R.string.preference_file_name), "id");
         //jo = new Jobject(routes.GET_USER_PRODUCTS + id);
-     //   id="963176113698271";
+       id="963176113698271";
+
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.skill_list, container, false);
+lv = (ListView)v.findViewById(android.R.id.list);
+
         FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.GET_USER_PRODUCTS + id));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(Jarray);
@@ -74,17 +84,8 @@ public class skill extends ListFragment{
         }
         es.shutdown();
 
-    }
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.skill_list, container, false);
-lv = (ListView)v.findViewById(android.R.id.list);
-
-
-        Log.d("test", ja.toString());
+//        Log.d("test", ja.toString());
 /*            if(ja.isNull(0)){
 
 
@@ -93,13 +94,15 @@ lv = (ListView)v.findViewById(android.R.id.list);
          skill = SkillModel.getData(ja);
 
         mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+/*        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
               SkillModel md = (SkillModel) (getListAdapter()).getItem(position);
-              com.itemSelected(md.passJson());
+             com.itemSelected(md.passJson());
+                String pos = Integer.toString(position);
+                Log.d("click", pos);
             }
-        });
+        });*/
         lv.setAdapter(mAdapt);
         // Inflate the layout for this fragment
         return v;
@@ -147,4 +150,16 @@ lv = (ListView)v.findViewById(android.R.id.list);
      * >Communicating with Other Fragments</a> for more information.
      */
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        //SkillModel md = (SkillModel) l.getAdapter().getItem(position);
+        SkillModel md = (SkillModel)l.getItemAtPosition(position);
+        String pos = Integer.toString(position);
+        Log.d("click", pos);
+        com.itemSelected(md.passJson());
+
+
+
+    }
 }

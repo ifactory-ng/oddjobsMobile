@@ -30,7 +30,7 @@ private FragmentNavigationDrawer dlDrawer;
         dlDrawer.addNavItem("Edit","Edit Profile", edit.class);
         dlDrawer.addNavItem("Skill List","Skill List", skill.class);
         if(savedInstanceState == null){
-            dlDrawer.selectDrawerItem(1);
+            dlDrawer.selectDrawerItem(2);
         }
     }
 
@@ -74,7 +74,7 @@ private FragmentNavigationDrawer dlDrawer;
         p.setArguments(args);
  FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.layout.activity_profile, p).addToBackStack(null);
+        ft.replace(R.id.mainContent, p).addToBackStack(null);
         ft.commit();
 
 

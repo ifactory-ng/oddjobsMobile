@@ -50,8 +50,8 @@ public class edit extends Fragment {
         address = (EditText) v.findViewById(R.id.address);
          phone = (EditText) v.findViewById(R.id.phone);
 
-        save = (Button) container.findViewById(R.id.button);
-        save.setOnClickListener(new View.OnClickListener() {
+        save = (Button) v.findViewById(R.id.button);
+        save.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(new Runnable() {
