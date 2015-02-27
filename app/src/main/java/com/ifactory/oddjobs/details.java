@@ -65,6 +65,12 @@ public class details extends android.support.v4.app.Fragment{
          c = getActivity();
         SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
         id = editor.getString("id", "id");
+       address = editor.getString("address","please fill your profile");
+        location = editor.getString("location", "please fill your profile");
+        phone = editor.getString("phone", "please fill your profile");
+        about = editor.getString("about", "please fill your profile");
+        name = editor.getString("name", "please fill your profile");
+        email = editor.getString("email", "please fill your profile");
         //id ="963176113698271";
         FutureTask<Bitmap> task = new FutureTask<Bitmap>(new Facebook_pic(id));
         ExecutorService es = Executors.newSingleThreadExecutor();
@@ -79,7 +85,7 @@ public class details extends android.support.v4.app.Fragment{
             e.printStackTrace();
         }
         es.shutdown();
-        new load_details(c).execute();
+
     }
 
     @Override
@@ -87,24 +93,7 @@ public class details extends android.support.v4.app.Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.details, container, false);
-  /*FutureTask<Bitmap> future = new FutureTask<Bitmap>(new Callable<Bitmap>() {
-    @Override
-    public Bitmap call() throws Exception {
-        Bitmap pic = getPhotoFacebook(id);
-        return pic;
-    }
-
-}); try {
-            Bitmap pic = future.get();
-
-        }
-        catch (InterruptedException i){
-            i.printStackTrace();
-        }
-        catch (ExecutionException e){
-            e.printStackTrace();
-        }
- */           user_email = (TextView) v.findViewById(R.id.email);
+           user_email = (TextView) v.findViewById(R.id.email);
        user_name = (TextView) v.findViewById(R.id.name);
         user_about = (TextView)v.findViewById(R.id.about);
 
@@ -114,6 +103,15 @@ public class details extends android.support.v4.app.Fragment{
 
         user_phone = (TextView) v.findViewById(R.id.phone);
         px = (ImageView) v.findViewById(R.id.pro_pic);
+        user_email.setText(email);
+        user_name.setText(name);
+        user_about.setText(about);
+        user_location.setText(location);
+        user_address.setText(address);
+        user_phone.setText(phone);
+
+
+
         px.setImageBitmap(pic);
         return v;
     }
@@ -135,73 +133,6 @@ public class details extends android.support.v4.app.Fragment{
     }
 
 
-
-
-    private class load_details extends AsyncTask<String, Void, String>{
-    //    Bitmap pic;
-        Context c;
-        public load_details(Context c){
-            this.c = c;
-
-        }
-        @Override
-        protected String doInBackground(String... params) {
-
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(routes.PROFILE + id);
-            try {
-                HttpResponse res = httpclient.execute(httpGet);
-                result = EntityUtils.toString(res.getEntity());
-          //      getPhotoFacebook(id);
-            }
-
-            catch (IOException i){
-                i.printStackTrace();
-            }
-
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            try {
-                //JSONArray rs = new JSONArray(s);
-                jObj = new JSONObject(s);
-                email = jObj.getString("email");
-                name = jObj.getString("name");
-                //location = jObj.getString("location");
-                //  phone = jObj.getString("phone");
-                //about = jObj.getString("about");
-                //address = jObj.getString("address");
-                user_email.setText(email);
-                user_name.setText(name);
-                ///user_about.setText(about);
-                //user_location.setText(location);
-                //user_address.setText(address);
-                //user_phone.setText(phone);
-                //pics.setImageBitmap(pic);
-            }
-            catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-   /* public Bitmap getPhotoFacebook(final String id) {
-        Bitmap bitmap=null;
-        try {
-
-
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-        return bitmap;
-
-    }*/
 
     public static class Facebook_pic implements Callable<Bitmap>{
 

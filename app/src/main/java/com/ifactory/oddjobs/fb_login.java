@@ -32,6 +32,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -48,6 +49,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 //import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 
 public class fb_login extends Activity{
@@ -117,23 +122,46 @@ public class fb_login extends Activity{
                             Log.d("name", name);
                             String id = profile.getString("id");
                             String email = profile.getString("email");
-                            List<NameValuePair> value = new ArrayList<NameValuePair>();
-                            value.add(new BasicNameValuePair("name", name));
-                            value.add(new BasicNameValuePair("id", id));
-                            value.add(new BasicNameValuePair("email", email));
+                            JSONObject jo = new JSONObject();
+                            //List<NameValuePair> value = new ArrayList<NameValuePair>();
+                            jo.put("name", name);
+                            jo.put("id", id);
+                            jo.put("email", email);
                             Log.d("json ", id);
                 /*add facebook values to sharepreferences for application level access
                  */         editor.clear();
                             editor.putString("email", email);
                             editor.putString("id", id);
-                            editor.apply();
+                            editor.putString("name", name);
                             httpclient = new DefaultHttpClient();
                             httpPost = new HttpPost(routes.AUTHENTICATE);
 
-                            httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
-                            httpPost.setEntity(new UrlEncodedFormEntity(value));
+                            //httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+                            httpPost.setHeader("Content-Type", "application/json");
+                            httpPost.setHeader("Accept-Encoding", "application/json");
+                            httpPost.setHeader("Accept-Language", "en-US");
+
+                            httpPost.setEntity(new StringEntity(jo.toString(), "UTF-8"));
                             HttpResponse res = httpclient.execute(httpPost);
                             String result = EntityUtils.toString(res.getEntity());
+                            JSONObject ja = null;
+                            FutureTask<JSONObject> Jobj = new FutureTask<JSONObject>(new GetData(routes.PROFILE+ id));
+                            ExecutorService es = Executors.newSingleThreadExecutor();
+                            es.submit(Jobj);
+                            try {
+                                ja = Jobj.get();
+                            } catch (InterruptedException i) {
+                                i.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            }
+                            es.shutdown();
+                             editor.putString("location", ja.getString("location"));
+                            editor.putString("phone", ja.getString("phone"));
+                            editor.putString("about", ja.getString("about"));
+                            editor.putString("address", ja.getString("address"));
+
+                            editor.apply();
                             Log.d("json response", result);
                             runOnUiThread(new Runnable() {
                                 @Override

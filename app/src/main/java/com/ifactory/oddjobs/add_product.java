@@ -22,6 +22,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -61,17 +63,22 @@ EditText add, locale, tag, desc, p_name;
         submit.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                List<NameValuePair> value = new ArrayList<NameValuePair>();
-                value.add(new BasicNameValuePair("p_name", p_name.getText().toString()));
-                value.add(new BasicNameValuePair("desc", desc.getText().toString()));
-                value.add(new BasicNameValuePair("address", add.getText().toString()));
-                value.add(new BasicNameValuePair("location", locale.getText().toString()));
-                value.add(new BasicNameValuePair("tag", tag.getText().toString()));
+                JSONObject value = new JSONObject();
+                try {
+                    value.put("p_name", p_name.getText().toString());
+                    value.put("desc", desc.getText().toString());
+                    value.put("address", add.getText().toString());
+                    value.put("location", locale.getText().toString());
+                    value.put("tag", tag.getText().toString());
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
                 Context c = getActivity();
                 SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
                 String id = editor.getString("id", "id");
                 Log.d("test", id);
-                FutureTask<String> Jarray = new FutureTask<String>(new PostData(value, routes.ADD_PRODUCT + id));
+                FutureTask<JSONObject> Jarray = new FutureTask<JSONObject>(new PostData(value, routes.ADD_PRODUCT + id));
                 ExecutorService es = Executors.newSingleThreadExecutor();
                 es.submit(Jarray);
                 es.shutdown();
