@@ -63,8 +63,8 @@ EditText add, locale, tag, desc, p_name;
         submit.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                JSONObject value = new JSONObject();
-                try {
+                //JSONObject value = new JSONObject();
+                /*try {
                     value.put("p_name", p_name.getText().toString());
                     value.put("desc", desc.getText().toString());
                     value.put("address", add.getText().toString());
@@ -73,12 +73,18 @@ EditText add, locale, tag, desc, p_name;
                 }
                 catch (JSONException e){
                     e.printStackTrace();
-                }
+                }*/
+                List<NameValuePair> lt = new ArrayList<NameValuePair>(4);
+                lt.add(new BasicNameValuePair("skill_name", p_name.getText().toString()));
+                lt.add(new BasicNameValuePair("desc", desc.getText().toString()));
+                lt.add(new BasicNameValuePair("address", add.getText().toString()));
+                lt.add(new BasicNameValuePair("tag", tag.getText().toString()));
+                lt.add(new BasicNameValuePair("location", locale.getText().toString()));
                 Context c = getActivity();
                 SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
                 String id = editor.getString("id", "id");
                 Log.d("test", id);
-                FutureTask<JSONObject> Jarray = new FutureTask<JSONObject>(new PostData(value, routes.ADD_PRODUCT + id));
+                FutureTask<String> Jarray = new FutureTask<String>(new PostData(lt, "http://10.0.2.2:8080/profile/skills/"));
                 ExecutorService es = Executors.newSingleThreadExecutor();
                 es.submit(Jarray);
                 es.shutdown();

@@ -18,9 +18,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".searchDialog"
+            android:label="search"
+            android:theme="@android:style/Theme.Holo.Dialog" >
+            </activity>
         <activity
             android:name=".profile"
-            android:label="@string/title_activity_profile" >
+            android:label="@string/title_activity_profile"
+            android:theme="@style/Theme.AppCompat.Light"
+            >
         </activity>
 
     </application>

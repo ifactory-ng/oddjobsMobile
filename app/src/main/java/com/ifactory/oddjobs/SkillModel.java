@@ -20,13 +20,13 @@ public class SkillModel {
     public SkillModel(JSONObject object) {
         try
         {
-            this.name = object.getString("name");
-//        this.Title = object.getString("SkillName");
+  //          this.name = object.getString("name");
+        this.Title = object.getString("SkillName");
             this.id = object.getString("_id");
             this.desc = object.getString("Description");
             this.location = object.getString("Location");
-  //          this.rating = object.getInt("Rating");
-            this.jb = object;
+         this.rating = object.getInt("Rating");
+//            this.jb = object;
     }
     catch(JSONException e){
         e.printStackTrace();

@@ -27,8 +27,6 @@ public class pro_adapter extends ArrayAdapter<SkillModel> {
 
         TextView skillTitle = (TextView) convertView.findViewById(R.id.listItem);
         skillTitle.setText(model.name);
-        TextView id = (TextView) convertView.findViewById(R.id.listItem2);
-        id.setText(model.id);
         return super.getView(position, convertView, parent);
     }
 

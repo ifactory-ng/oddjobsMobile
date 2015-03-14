@@ -2,25 +2,19 @@ package com.ifactory.oddjobs;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -42,13 +36,13 @@ public class skill extends ListFragment{
  //   private OnFragmentInteractionListener mListener;
     private pro_adapter mAdapt;
     ArrayList<SkillModel> skill;
-    //Jobject jo;
+    Jobject jo;
     ListView lv;
     String id;
     Communicator com;
     JSONArray ja = null;
     public interface Communicator {
-        public void itemSelected(JSONObject Jobject);
+        public void itemSelected(String Jobject);
 
     }
     @Override
@@ -56,10 +50,11 @@ public class skill extends ListFragment{
 
         super.onCreate(savedInstanceState);
         Context c = getActivity();
-       // SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+        SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
       //id = editor.getString(c.getString(R.string.preference_file_name), "id");
-        //jo = new Jobject(routes.GET_USER_PRODUCTS + id);
-       id="963176113698271";
+        id="963176113698271";
+        jo = new Jobject(routes.GET_USER_PRODUCTS + id);
+
 
     }
 
@@ -86,8 +81,11 @@ lv = (ListView)v.findViewById(android.R.id.list);
 
 
 //        Log.d("test", ja.toString());
-/*            if(ja.isNull(0)){
+    /*    if(ja.isNull(0)){
 
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+            fragmentManager.beginTransaction().replace(R.id.mainContent, details).commit();
 
 
             }*/
@@ -153,11 +151,11 @@ lv = (ListView)v.findViewById(android.R.id.list);
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        //SkillModel md = (SkillModel) l.getAdapter().getItem(position);
-        SkillModel md = (SkillModel)l.getItemAtPosition(position);
+        SkillModel md = (SkillModel) l.getAdapter().getItem(position);
+        //SkillModel md = ((pro_adapter)getListAdapter()).getItem(position);
         String pos = Integer.toString(position);
         Log.d("click", pos);
-        com.itemSelected(md.passJson());
+        com.itemSelected(md.id);
 
 
 

@@ -18,7 +18,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="5dp"
         android:id="@+id/user_product_desc"
-        android:layout_weight="0.31" />
+        android:layout_weight="0.31"
+        android:background="#560f1759" />
     <View
         android:layout_width="340dp"
         android:layout_height="1dp"

@@ -35,7 +35,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    
+
                 }
             });
         }
@@ -53,6 +53,8 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
         holder.desc.setText(model.desc);
         holder.locale.setText(model.location);
         holder.rating.setNumStars(model.rating);
+
+
     }
 
     @Override

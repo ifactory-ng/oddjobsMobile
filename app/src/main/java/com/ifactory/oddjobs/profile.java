@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 import org.json.JSONObject;
 
 
-public class profile extends FragmentActivity implements skill.Communicator {
+public class profile extends ActionBarActivity implements skill.Communicator {
 private FragmentNavigationDrawer dlDrawer;
 
     @Override
@@ -37,9 +38,11 @@ private FragmentNavigationDrawer dlDrawer;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.profile, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.profile, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -47,6 +50,10 @@ private FragmentNavigationDrawer dlDrawer;
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        if(item.getItemId() == R.id.action_search){
+
+
+        }
         if(dlDrawer.getDrawerToggle().onOptionsItemSelected(item)){
             return true;
         }
@@ -66,10 +73,10 @@ private FragmentNavigationDrawer dlDrawer;
     }
 
     @Override
-    public void itemSelected(JSONObject Jobject) {
+    public void itemSelected(String data) {
         product_view p = new product_view();
         Bundle args = new Bundle();
-        String data = Jobject.toString();
+       // String data = Jobject.toString();
         args.putString("data", data);
         p.setArguments(args);
  FragmentManager fm = getSupportFragmentManager();

@@ -51,7 +51,7 @@ public class edit extends Fragment {
                 addresss = address.getText().toString();
                 phones = phone.getText().toString();
 //                List<NameValuePair> value = new ArrayList<NameValuePair>();
-                JSONObject value = new JSONObject();
+           /*     JSONObject value = new JSONObject();
                 try {
 
                     value.put("location", locations);
@@ -63,11 +63,11 @@ public class edit extends Fragment {
                     e.printStackTrace();
                 }
                 Context c = getActivity();
-                SharedPreferences sharedPref = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+               SharedPreferences sharedPref = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
                 SharedPreferences.Editor editor;
                 editor = sharedPref.edit();
-                String id = sharedPref.getString(c.getString(R.string.preference_file_name), "id");
-                FutureTask<JSONObject> Jarray = new FutureTask<JSONObject>(new PostData(value, routes.EDIT_PROFILE + id));
+                String id = sharedPref.getString("id", "id");
+            FutureTask<JSONObject> Jarray = new FutureTask<JSONObject>(new PostData(value, routes.EDIT_PROFILE + id));
                 ExecutorService es = Executors.newSingleThreadExecutor();
                 es.submit(Jarray);
                 es.shutdown();
@@ -81,7 +81,7 @@ public class edit extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
                 fragmentManager.beginTransaction().replace(R.id.mainContent, details).commit();
-
+*/
 
 
             }

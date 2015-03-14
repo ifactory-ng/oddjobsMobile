@@ -37,7 +37,7 @@ public class Search_Json  extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //super.onCreateView(inflater, container, savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
         JSONArray ja = null;
         FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.BY_LIMIT));
         ExecutorService es = Executors.newSingleThreadExecutor();
@@ -61,7 +61,9 @@ public class Search_Json  extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         search_query = (TextView) v.findViewById(R.id.search_query);
         search = (Button) v.findViewById(R.id.search);
-        search.setOnClickListener(new View.OnClickListener() {
+
+        //onClickListner for search.........
+        search.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
 

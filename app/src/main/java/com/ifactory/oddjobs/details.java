@@ -99,7 +99,7 @@ public class details extends android.support.v4.app.Fragment{
 
         user_location = (TextView) v.findViewById(R.id.location);
 
-        user_address = (TextView) v.findViewById(R.id.address);
+        user_address = (TextView) v.findViewById(R.id.addr);
 
         user_phone = (TextView) v.findViewById(R.id.phone);
         px = (ImageView) v.findViewById(R.id.pro_pic);

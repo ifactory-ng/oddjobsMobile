@@ -18,6 +18,11 @@
     <string name="action_example">Example action</string>
     <string name="fb_login">Login with Facebook</string>
     <string name="preference_file_name">user_data</string>
+    <string name="search">Search</string>
+    <string name="positive">Search</string>
+    <string name="negative">Cancel</string>
+    <string name="search_location"> location!</string>
+    <string name="search_query">what skill are you looking for?</string>
     <string name="info_text">Login with Facebook and go to profile</string>
     <string name="info_text2">Please press the button below to </string>
     <string-array name="menu_item">
