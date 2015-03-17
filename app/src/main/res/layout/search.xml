@@ -29,21 +29,20 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:layout_marginLeft="20dp"
 
         android:id="@+id/locale"
         />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
         android:id="@+id/description"
         android:layout_marginLeft="20dp"
         android:layout_alignStart="@+id/locale"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="70dp" />
 
 
     <RatingBar

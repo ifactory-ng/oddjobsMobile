@@ -53,11 +53,12 @@ public class details extends android.support.v4.app.Fragment{
     String phone;
     String about;
     String address;
-    JSONObject jObj;
-    String result;
+    //JSONObject jObj;
+    //String result;
     ImageView px;
     String id;
     Bitmap pic;
+    RoundImage rd;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
