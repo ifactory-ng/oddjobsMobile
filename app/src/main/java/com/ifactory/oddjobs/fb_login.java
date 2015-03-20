@@ -205,7 +205,7 @@ public class fb_login extends Activity{
                     }
                 });
 
-                Intent i = new Intent(v.getContext(), profile.class);
+                Intent i = new Intent(getApplicationContext(), profile.class);
 
                 startActivity(i);
 

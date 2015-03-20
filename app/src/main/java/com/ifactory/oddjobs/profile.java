@@ -1,11 +1,13 @@
 package com.ifactory.oddjobs;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -51,6 +53,8 @@ private FragmentNavigationDrawer dlDrawer;
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         if(item.getItemId() == R.id.action_search){
+            Intent i = new Intent(getApplicationContext(), searchDialog.class);
+            startActivity(i);
 
 
         }
@@ -77,6 +81,7 @@ private FragmentNavigationDrawer dlDrawer;
         product_view p = new product_view();
         Bundle args = new Bundle();
        // String data = Jobject.toString();
+        Log.d("data", data);
         args.putString("data", data);
         p.setArguments(args);
  FragmentManager fm = getSupportFragmentManager();

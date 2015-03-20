@@ -1,5 +1,7 @@
 package com.ifactory.oddjobs;
 
+import android.database.Cursor;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,5 +59,11 @@ public class SkillModel {
             }
         }
         return model;
+    }
+    public static ArrayList<SkillModel> getFromProvider(Cursor cursor){
+        ArrayList<SkillModel> model = new ArrayList<SkillModel>();
+        do{
+            model.add();
+        }
     }
 }

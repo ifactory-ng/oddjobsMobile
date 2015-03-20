@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.text.TextUtils;
 
@@ -35,7 +34,9 @@ private static final String AUTHORITY = "com.ifactory.oddjobs";
         switch(urimatcher.match(uri)){
             case POPULAR_FEEDS:
 
-                return db.query(DataContract.feeds.TABLE_NAME, projection, selection, selectionArgs, null, null,sortOrder)
+                return db.query(DataContract.feeds.TABLE_NAME, projection, selection, selectionArgs, null, null,sortOrder);
+            default:
+                throw new RuntimeException("No content provider URI match.");
         }
     }
 
@@ -44,17 +45,36 @@ private static final String AUTHORITY = "com.ifactory.oddjobs";
         switch (urimatcher.match(uri)){
             case POPULAR_FEEDS:
                 return "vnd.android.cursor.dir/vnd.com.ifactory.oddjobs.feeds";
+            default:
+                throw new RuntimeException("No content provider URI match.");
         }
+
     }
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        SQLiteDatabase db = dbms.getWritableDatabase();
+        switch(urimatcher.match(uri)){
+            case POPULAR_FEEDS:
+                db.insertOrThrow(DataContract.feeds.TABLE_NAME, null, values);
+                return Uri.parse("content://" + AUTHORITY + "/feeds");
+            default:
+                throw new RuntimeException("No content provider URI match.");
+        }
+
+
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase db = dbms.getWritableDatabase();
+        switch(urimatcher.match(uri)){
+            case POPULAR_FEEDS:
+                return db.delete(DataContract.feeds.TABLE_NAME,null,null);
+            default:
+                throw new RuntimeException("No content provider URI match.");
+        }
+
     }
 
     @Override

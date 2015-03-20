@@ -40,6 +40,7 @@ public class GetData implements Callable<JSONObject> {
         String result = EntityUtils.toString(response.getEntity());
         //JSONArray rs = new JSONArray(result);
         JSONObject rss = new JSONObject(result);
+
         return rss;
     }
 }

@@ -18,7 +18,9 @@ public class dbHelper extends SQLiteOpenHelper{
     private static final String NAME = "name";
     private static final String LOCATION = "location";
     private static final String ADDRESS = "address";
-    private static final String  CREATE_TABLE = "CREATE TABLE "+ DATABASE_TABLE+" ("+UID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+DESC+" VARCHAR(255), "+LOCATION+" VARCHAR(255), "+RATE+" VARCHAR(255), "+NAME+" VARCHAR(255), "+ADDRESS+" VARCHAR(255)";
+    private static final String SKILLNAME = "skill_name";
+    private static final String ID = "skill_id";
+    private static final String  CREATE_TABLE = "CREATE TABLE "+ DATABASE_TABLE+" ("+UID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+DESC+" VARCHAR(255), "+LOCATION+" VARCHAR(255), "+RATE+" VARCHAR(255), "+NAME+" VARCHAR(255), "+ADDRESS+" VARCHAR(255), "+ID+" VARCHAR(255), "+SKILLNAME+" VARCHAR(255)";
     public dbHelper(Context context){
         super(context, DATABASE_NAME, null, VERSION);
     }

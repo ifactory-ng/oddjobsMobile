@@ -1,5 +1,9 @@
 package com.ifactory.oddjobs;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,8 +30,12 @@ public class Search_Json  extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mlayoutManager;
+    private static final String AUTHORITY = "com.ifactory.oddjobs";
+    private static final String PREFIX = "content://" + AUTHORITY + "/";
+
     ArrayList<SkillModel> skill;
     Button search;
+    ContentResolver contentResolver;
     TextView search_query;
 
     @Override
@@ -49,6 +57,7 @@ public class Search_Json  extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
         es.shutdown();
         skill = SkillModel.getData(ja);
         View v = inflater.inflate(R.layout.search_result, container, false);
@@ -91,5 +100,17 @@ public class Search_Json  extends Fragment {
 
         return v;
     }
+private class Load_from_provider extends AsyncTask<Void, String, String>{
+    @Override
+    protected String doInBackground(Void... params) {
+        JSONArray ja = new JSONArray();
+        Uri uri = Uri.parse(PREFIX + "feeds");
+        Cursor cursor = contentResolver.query(uri, null, null, null, null);
+        do{
+            cursor.getString(cursor.getColumnIndexOrThrow());
+        }
 
+        return null;
+    }
+}
 }

@@ -3,31 +3,29 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <EditText
-        android:layout_width="100dp"
-        android:layout_marginLeft="20dp"
+        android:layout_width="240dp"
         android:id="@+id/search_location"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_height="50dp"
         android:hint="@string/search_location"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="46dp" />
+        android:layout_centerHorizontal="true"
+        android:drawableStart="@drawable/loc"
+        android:drawablePadding="10dp"
+
+        android:layout_marginTop="170dp" />
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/search_query"
         android:id="@+id/search_query"
-        android:layout_marginRight="20dp"
-        android:layout_alignBottom="@+id/search_location"
-        android:layout_toRightOf="@+id/search_location"
-        android:layout_toEndOf="@+id/search_location" />
+        android:layout_marginTop="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/send"
-        android:layout_below="@+id/search_query"
+        android:text="Search"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="59dp" />
+        android:layout_marginTop="250dp" />
 </RelativeLayout>
