@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.android.Facebook;
+import com.gc.materialdesign.views.ButtonFloat;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -58,22 +60,32 @@ public class details extends android.support.v4.app.Fragment{
     ImageView px;
     String id;
     Bitmap pic;
-    RoundImage rd;
+    //RoundImage rd;
+    ButtonFloat edit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          c = getActivity();
         SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
-        id = editor.getString("id", "id");
+//        id = editor.getString("_id", "id");
+  //      String fbid = editor.getString("id", "id");
        address = editor.getString("address","please fill your profile");
         location = editor.getString("location", "please fill your profile");
         phone = editor.getString("phone", "please fill your profile");
         about = editor.getString("about", "please fill your profile");
         name = editor.getString("name", "please fill your profile");
         email = editor.getString("email", "please fill your profile");
-        //id ="963176113698271";
-        FutureTask<Bitmap> task = new FutureTask<Bitmap>(new Facebook_pic(id));
+            }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        String fbid ="963176113698271";
+
+        FutureTask<Bitmap> task = new FutureTask<Bitmap>(new Facebook_pic(fbid));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(task);
         try{
@@ -87,12 +99,7 @@ public class details extends android.support.v4.app.Fragment{
         }
         es.shutdown();
 
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.details, container, false);
            user_email = (TextView) v.findViewById(R.id.email);
        user_name = (TextView) v.findViewById(R.id.name);
@@ -114,6 +121,17 @@ public class details extends android.support.v4.app.Fragment{
 
 
         px.setImageBitmap(pic);
+        edit = (ButtonFloat) v.findViewById(R.id.float_edit);
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edit edit = new edit();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                fragmentManager.beginTransaction().addToBackStack("details").replace(R.id.mainContent, edit).commit();
+
+            }
+        });
         return v;
     }
 

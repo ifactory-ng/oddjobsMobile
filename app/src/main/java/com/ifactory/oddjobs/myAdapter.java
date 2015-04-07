@@ -1,6 +1,9 @@
 package com.ifactory.oddjobs;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,15 +29,25 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder{
         public TextView desc, user_name, locale;
         public RatingBar rating;
+        Context c;
+
         public ViewHolder(View v){
             super(v);
+
             desc = (TextView) v.findViewById(R.id.description);
-            user_name = (TextView) v.findViewById(R.id.user_name);
+         //   user_name = (TextView) v.findViewById(R.id.user_name);
             locale = (TextView) v.findViewById(R.id.locale);
             rating = (RatingBar) v.findViewById(R.id.ratingBar2);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SkillModel md = (SkillModel) v.getTag();
+                    Intent i = new Intent(c.getApplicationContext(),product_result.class);
+                    i.putExtra("id", md.id);
+                    c.startActivity(i);
+                    Log.d("recycler", desc.getText().toString());
+
+
 
                 }
             });

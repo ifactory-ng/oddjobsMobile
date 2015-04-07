@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/edit">
@@ -8,9 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tag_name"
-        android:hint="add tags to your product separate with commas"
+        android:hint="add tags to your Skill separate with commas"
         android:layout_below="@+id/edit_phone"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -40,8 +43,8 @@
         android:id="@+id/add"
         android:hint="Address"
         android:layout_marginTop="230dp"
-        android:layout_alignRight="@+id/edit_phone"
-        android:layout_alignEnd="@+id/edit_phone" />
+        android:layout_alignEnd="@+id/submit"
+  />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,21 +53,13 @@
         android:layout_alignStart="@+id/textView"/>
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
-        android:id="@+id/submit"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/view"
-        card_view:cardBackgroundColor="#f42414af"
+        card_view:cardBackgroundColor="#1E88E5"
 
         >
         <EditText
@@ -96,19 +91,28 @@
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignStart="@+id/textView"
-    android:layout_alignBottom="@+id/edit_phone"
+    android:layout_alignStart="@+id/tag_name"
     android:drawableLeft="@drawable/call"/>
     <EditText
-        android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
         android:id="@+id/edit_phone"
+        android:layout_width="240dp"
+        android:layout_alignStart="@+id/add"
         android:layout_toRightOf="@+id/textView"
         android:layout_below="@+id/loc"
         android:hint="Phone"
         android:layout_marginTop="15dp"
-        android:layout_toLeftOf="@+id/submit"
-        android:layout_toStartOf="@+id/submit" />
+        android:inputType="phone" />
+    <com.gc.materialdesign.views.ButtonFlat
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#1E88E5"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tag_name"
+        android:layout_marginLeft="240dp"
+        android:text="Submit" />
 
 
 </RelativeLayout>

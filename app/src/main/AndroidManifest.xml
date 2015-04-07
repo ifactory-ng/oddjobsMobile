@@ -9,12 +9,7 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
-        <provider
-            android:name="com.ifactory.oddjobs.provider"
-            android:authorities="com.ifactory.oddjobs.provider"
-            android:exported="false"
-            android:syncable="true"/>
-        <activity
+                <activity
             android:name=".fb_login"
             android:label="@string/app_name" >
             <intent-filter>
@@ -35,6 +30,30 @@
             android:theme="@style/Theme.AppCompat.Light"
             >
         </activity>
+        <provider
+            android:name="com.ifactory.oddjobs.provider"
+            android:authorities="com.ifactory.Oddjobs.provider"
+            android:exported="true"
+            android:syncable="true"/>
+        <service
+            android:name="com.ifactory.oddjobs.AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+        <service
+            android:name="com.ifactory.oddjobs.SyncService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
 
     </application>
 

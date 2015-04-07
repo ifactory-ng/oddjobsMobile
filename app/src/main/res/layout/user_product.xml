@@ -1,61 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    >
 
+<android.support.v7.widget.CardView
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="46dp"
+    android:id="@+id/view"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <TextView
         android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_height="wrap_content"
         android:id="@+id/user_product_name"
-        android:layout_marginTop="30dp"/>
-
+        android:layout_marginTop="10dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginRight="5dp"
         android:id="@+id/user_product_desc"
         android:layout_weight="0.31"
-        android:background="#560f1759" />
-    <View
-        android:layout_width="340dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="20dp"
-        android:background="#b12b1c2b" />
+         />
+    </RelativeLayout>
 
+</android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+
+    android:layout_below="@+id/view"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/user_product_phone"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:drawableLeft="@drawable/loc"
+        android:layout_toLeftOf="@+id/search_location"
         android:id="@+id/user_product_location"
         android:layout_marginLeft="10dp"/>
 
-    <View
-        android:layout_width="340dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="20dp"
-        android:background="#b12b1c2b" />
 
      <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         android:layout_marginTop="30dp"
+         android:drawableLeft="@drawable/home"
          android:layout_marginLeft="10dp"
+         android:layout_below="@+id/user_product_location"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
         android:id="@+id/user_product_address" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:drawableLeft="@drawable/call"
+            android:layout_alignStart="@+id/user_product_address"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/user_product_phone"/>
 
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ratingBar" />
-
-
-</LinearLayout>
+        android:layout_below="@+id/user_product_address"
+        android:id="@+id/ratingBar"
+        android:layout_marginLeft="16dp"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+</RelativeLayout>

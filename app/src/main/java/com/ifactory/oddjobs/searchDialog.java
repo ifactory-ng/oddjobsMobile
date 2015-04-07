@@ -27,9 +27,10 @@ public class searchDialog extends Activity {
         search.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
+                Intent intent = new Intent(getBaseContext(), profile.class);
                 intent.putExtra("location", location.getText().toString());
                 intent.putExtra("query", search_query.getText().toString());
+                startActivity(intent);
 
             }
         });

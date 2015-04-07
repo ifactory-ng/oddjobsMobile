@@ -27,7 +27,7 @@ import java.net.URI;
  * Created by smilecs on 3/19/15.
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
-   private static final String AUTHORITY = "com.ifactory.oddjobs";
+   private static final String AUTHORITY = "com.ifactory.Oddjobs";
     private static final String PREFIX = "content://" + AUTHORITY + "/";
     private static final String TAG = "Sync";
 

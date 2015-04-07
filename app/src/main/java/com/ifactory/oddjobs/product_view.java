@@ -4,9 +4,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
@@ -24,6 +26,7 @@ import java.io.IOException;
  */
 public class product_view extends Fragment {
 TextView desc, location, address, name;
+    RatingBar rt;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +35,11 @@ TextView desc, location, address, name;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        super.onCreateView(inflater, container, savedInstanceState);
+        rt = (RatingBar) getActivity().findViewById(R.id.ratingBar);
+        //rt.isIndicator();
+
         String data = getArguments().getString("data");
+        Log.d("test", data);
         new loadDetails().execute(data);
             return inflater.inflate(R.layout.user_product, container, false);
     }
@@ -48,6 +55,7 @@ TextView desc, location, address, name;
 
                 HttpResponse response = httpclient.execute(get);
                 result = EntityUtils.toString(response.getEntity());
+                Log.d("result", result);
             }
             catch(IOException i){
                 i.printStackTrace();
@@ -62,13 +70,15 @@ TextView desc, location, address, name;
             try {
                 JSONObject Jobject = new JSONObject(s);
                 desc = (TextView) getActivity().findViewById(R.id.user_product_desc);
-                desc.setText(Jobject.get("description").toString());
+                desc.setText(Jobject.get("Description").toString());
                 location = (TextView) getActivity().findViewById(R.id.user_product_location);
-                location.setText(Jobject.get("location").toString());
+                location.setText(Jobject.get("Location").toString());
                 address = (TextView) getActivity().findViewById(R.id.user_product_address);
-                address.setText(Jobject.get("address").toString());
+                address.setText(Jobject.get("Address").toString());
                 name = (TextView) getActivity().findViewById(R.id.user_product_name);
-                name.setText(Jobject.get("product_name").toString());
+                name.setText(Jobject.get("SkillName").toString());
+     //         int rate = Integer.parseInt(Jobject.get("Rating").toString());
+       //         rt.setNumStars(rate);
             }
             catch (JSONException j){
                 j.printStackTrace();

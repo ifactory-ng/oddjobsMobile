@@ -31,8 +31,8 @@ public class PostData implements Callable<String> {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(URI);
         //httpPost.setHeader("Content-Type", "application/json");
-        //httpPost.setHeader("Accept-Encoding", "application/json");
-        //httpPost.setHeader("Accept-Language", "en-US");
+        httpPost.setHeader("Accept-Encoding", "application/json");
+        httpPost.setHeader("Accept-Language", "en-US");
 
         httpPost.setEntity(new UrlEncodedFormEntity(myList));
             Log.d("lst", myList.toString());

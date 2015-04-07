@@ -14,7 +14,7 @@ import android.text.TextUtils;
 public class provider extends ContentProvider {
     private static final UriMatcher urimatcher = new UriMatcher(UriMatcher.NO_MATCH);
     private static final int POPULAR_FEEDS = 1;
-private static final String AUTHORITY = "com.ifactory.oddjobs";
+private static final String AUTHORITY = "com.ifactory.Oddjobs.provider";
     static {
         urimatcher.addURI(AUTHORITY, "feeds", POPULAR_FEEDS);
     }
@@ -44,7 +44,7 @@ private static final String AUTHORITY = "com.ifactory.oddjobs";
     public String getType(Uri uri) {
         switch (urimatcher.match(uri)){
             case POPULAR_FEEDS:
-                return "vnd.android.cursor.dir/vnd.com.ifactory.oddjobs.feeds";
+                return "vnd.android.cursor.dir/vnd.com.ifactory.Oddjobs.feeds";
             default:
                 throw new RuntimeException("No content provider URI match.");
         }

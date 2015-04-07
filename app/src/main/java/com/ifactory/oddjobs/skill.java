@@ -36,7 +36,7 @@ public class skill extends ListFragment{
  //   private OnFragmentInteractionListener mListener;
     private pro_adapter mAdapt;
     ArrayList<SkillModel> skill;
-    Jobject jo;
+//    Jobject jo;
     ListView lv;
     String id;
     Communicator com;
@@ -50,10 +50,10 @@ public class skill extends ListFragment{
 
         super.onCreate(savedInstanceState);
         Context c = getActivity();
-        SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
-      //id = editor.getString(c.getString(R.string.preference_file_name), "id");
-        id="963176113698271";
-        jo = new Jobject(routes.GET_USER_PRODUCTS + id);
+      //  SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+//      id = editor.getString("_id", "id");
+        id="5516c392ea37b5030f4158d2";
+      //  jo = new Jobject(routes.GET_USER_PRODUCTS + id);
 
 
     }
@@ -64,8 +64,8 @@ public class skill extends ListFragment{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.skill_list, container, false);
 lv = (ListView)v.findViewById(android.R.id.list);
-
-        FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.GET_USER_PRODUCTS + id));
+    
+        FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.GET_SKILLs+ "profile"));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(Jarray);
         try{
@@ -81,28 +81,13 @@ lv = (ListView)v.findViewById(android.R.id.list);
 
 
 //        Log.d("test", ja.toString());
-    /*    if(ja.isNull(0)){
 
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+          skill = SkillModel.getData(ja);
 
-            fragmentManager.beginTransaction().replace(R.id.mainContent, details).commit();
+          mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
+          lv.setAdapter(mAdapt);
+          // Inflate the layout for this fragment
 
-
-            }*/
-         skill = SkillModel.getData(ja);
-
-        mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
-/*        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              SkillModel md = (SkillModel) (getListAdapter()).getItem(position);
-             com.itemSelected(md.passJson());
-                String pos = Integer.toString(position);
-                Log.d("click", pos);
-            }
-        });*/
-        lv.setAdapter(mAdapt);
-        // Inflate the layout for this fragment
         return v;
     }
 

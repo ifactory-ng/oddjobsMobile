@@ -36,17 +36,13 @@ public class SkillModel {
 
 }
     public String toString(){
-        return name;
+        return Title;
     }
 
 /*public int returnId(){
     int i = Integer.parseInt(id);
     return i;
 }*/
-    public JSONObject passJson(){
-
-        return jb;
-    }
 
     public static ArrayList<SkillModel> getData(JSONArray jObject) {
         ArrayList<SkillModel> model = new ArrayList<SkillModel>();
@@ -60,10 +56,5 @@ public class SkillModel {
         }
         return model;
     }
-    public static ArrayList<SkillModel> getFromProvider(Cursor cursor){
-        ArrayList<SkillModel> model = new ArrayList<SkillModel>();
-        do{
-            model.add();
-        }
-    }
+
 }

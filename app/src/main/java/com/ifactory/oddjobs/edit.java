@@ -11,8 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.gc.materialdesign.views.ButtonFloat;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
@@ -50,24 +58,19 @@ public class edit extends Fragment {
                 abouts = about.getText().toString();
                 addresss = address.getText().toString();
                 phones = phone.getText().toString();
-//                List<NameValuePair> value = new ArrayList<NameValuePair>();
-           /*     JSONObject value = new JSONObject();
-                try {
-
-                    value.put("location", locations);
-                    value.put("about", abouts);
-                    value.put("address", addresss);
-                    value.put("phone", phones);
-                }
-                catch (JSONException e){
-                    e.printStackTrace();
-                }
+       List<NameValuePair> value = new ArrayList<NameValuePair>();
+              
+                    value.add(new BasicNameValuePair("location", locations));
+                    value.add(new BasicNameValuePair("about", abouts));
+                    value.add(new BasicNameValuePair("address", addresss));
+                    value.add(new BasicNameValuePair("phone", phones));
+              
                 Context c = getActivity();
                SharedPreferences sharedPref = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
                 SharedPreferences.Editor editor;
                 editor = sharedPref.edit();
-                String id = sharedPref.getString("id", "id");
-            FutureTask<JSONObject> Jarray = new FutureTask<JSONObject>(new PostData(value, routes.EDIT_PROFILE + id));
+                String id = sharedPref.getString("_id", "id");
+            FutureTask<String> Jarray = new FutureTask<String>(new PostData(value, routes.EDIT_PROFILE + id));
                 ExecutorService es = Executors.newSingleThreadExecutor();
                 es.submit(Jarray);
                 es.shutdown();
@@ -81,7 +84,7 @@ public class edit extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
                 fragmentManager.beginTransaction().replace(R.id.mainContent, details).commit();
-*/
+
 
 
             }

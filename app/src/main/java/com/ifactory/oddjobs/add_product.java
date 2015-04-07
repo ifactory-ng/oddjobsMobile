@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+
+import com.gc.materialdesign.views.ButtonFlat;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -38,12 +41,12 @@ import java.util.concurrent.FutureTask;
  */
 public class add_product extends Fragment {
 
-EditText add, locale, tag, desc, p_name;
+    EditText add, locale, tag, desc, p_name;
+   ButtonFlat submit;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
 
 
     }
@@ -52,29 +55,18 @@ EditText add, locale, tag, desc, p_name;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.add_product,container, false);
+        View v = inflater.inflate(R.layout.add_product, container, false);
 
         add = (EditText) v.findViewById(R.id.add);
         locale = (EditText) v.findViewById(R.id.loc);
         tag = (EditText) v.findViewById(R.id.tag_name);
         desc = (EditText) v.findViewById(R.id.desc);
         p_name = (EditText) v.findViewById(R.id.product_name);
-        Button submit = (Button) v.findViewById(R.id.submit);
+        submit = (ButtonFlat) v.findViewById(R.id.submit);
         submit.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //JSONObject value = new JSONObject();
-                /*try {
-                    value.put("p_name", p_name.getText().toString());
-                    value.put("desc", desc.getText().toString());
-                    value.put("address", add.getText().toString());
-                    value.put("location", locale.getText().toString());
-                    value.put("tag", tag.getText().toString());
-                }
-                catch (JSONException e){
-                    e.printStackTrace();
-                }*/
-                List<NameValuePair> lt = new ArrayList<NameValuePair>(4);
+                List<NameValuePair> lt = new ArrayList<NameValuePair>(5);
                 lt.add(new BasicNameValuePair("skill_name", p_name.getText().toString()));
                 lt.add(new BasicNameValuePair("desc", desc.getText().toString()));
                 lt.add(new BasicNameValuePair("address", add.getText().toString()));
@@ -82,9 +74,10 @@ EditText add, locale, tag, desc, p_name;
                 lt.add(new BasicNameValuePair("location", locale.getText().toString()));
                 Context c = getActivity();
                 SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
-                String id = editor.getString("id", "id");
+//                String id = editor.getString("_id", "id");
+                String id ="963176113698271";
                 Log.d("test", id);
-                FutureTask<String> Jarray = new FutureTask<String>(new PostData(lt, "http://10.0.2.2:8080/profile/skills/"));
+                FutureTask<String> Jarray = new FutureTask<String>(new PostData(lt, routes.ADD_SKILL + id));
                 ExecutorService es = Executors.newSingleThreadExecutor();
                 es.submit(Jarray);
                 es.shutdown();

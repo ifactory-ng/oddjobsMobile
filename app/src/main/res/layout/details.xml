@@ -1,4 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
     android:id="@+id/lay"
@@ -13,11 +15,14 @@
         android:layout_gravity="center"
         android:layout_width="fill_parent"
 
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
 
         card_view:cardElevation="10dp"
-        card_view:cardCornerRadius="20dp"
+        card_view:cardCornerRadius="10dp"
         android:layout_centerHorizontal="true">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
     <FrameLayout
         android:id="@+id/frame"
@@ -28,22 +33,21 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
         <ImageView
-            android:layout_marginLeft="120dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="30dp"
             android:layout_width="120dp"
             android:layout_height="70dp"
-            android:id="@+id/pro_pic"/>
+            android:id="@+id/pro_pic"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name"
             android:id="@+id/name"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginBottom="30dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
+            android:layout_marginLeft="50dp"
             android:typeface="monospace"
             android:textColor="#ff1a1a1a"
             android:layout_gravity="center" />
@@ -53,45 +57,81 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:layout_marginTop="170dp"
-            android:layout_marginLeft="147dp"
+            android:layout_below="@+id/name"
+            android:layout_marginTop="80dp"
+            android:layout_marginLeft="210dp"
             android:id="@+id/addr" />
 
     </FrameLayout>
 
-</android.support.v7.widget.CardView>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About Me"
+            android:id="@+id/aboutme"
+            android:layout_below="@+id/frame"
+            android:layout_marginLeft="12dp"
+            android:textAppearance="?android:textAppearanceLarge"
+            />
+        <View
+            android:layout_width="250dp"
+            android:layout_height="1dp"
+            android:background="#666"
+            android:layout_below="@+id/aboutme"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="12dp"
+            android:id="@+id/line"
+            />
+            <com.gc.materialdesign.views.ButtonFloat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/float_edit"
+                android:layout_marginLeft="290dp"
+                android:layout_alignBottom="@+id/aboutme"
+                materialdesign:iconDrawable="@mipmap/edit"/>
+
+        <TextView
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/about"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/line"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
 
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_gravity="center"
-        android:layout_width="390dp"
-        android:layout_height="300dp"
-
+        android:layout_width="370dp"
+        android:layout_height="180dp"
+        android:layout_below="@+id/card_view1"
+        android:layout_marginLeft="7dp"
         card_view:cardElevation="1dp"
         card_view:cardCornerRadius="4dp"
-        android:layout_below="@+id/card_view1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp">
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="120dp"
-            android:id="@+id/about"
-            android:layout_below="@+id/card_view1"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+        android:layout_marginTop="20dp">
 
-
-
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:drawableLeft="@drawable/loc"
         android:id="@+id/location"
-        android:layout_marginTop="120dp"
         android:textColor="#ff373737"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -102,7 +142,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:drawableLeft="@drawable/mail"
         android:id="@+id/email"
-        android:layout_marginTop="170dp"
         android:textColor="#ff373737"
         android:layout_below="@+id/location"
         android:layout_alignParentLeft="true"
@@ -115,12 +154,12 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:drawableLeft="@drawable/contact"
         android:id="@+id/phone"
-        android:layout_marginBottom="15dp"
         android:textColor="#ff373737"
-        android:layout_marginTop="230dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/email"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-</android.support.v7.widget.CardView>
+</RelativeLayout>
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>
+

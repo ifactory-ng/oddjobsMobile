@@ -38,6 +38,7 @@ public class Jobject implements Callable<JSONArray> {
 
         HttpResponse response = httpclient.execute(get);
         String result = EntityUtils.toString(response.getEntity());
+
        JSONArray rs = new JSONArray(result);
         return rs;
     }
