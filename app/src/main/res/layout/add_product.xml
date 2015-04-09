@@ -92,6 +92,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignStart="@+id/tag_name"
+    android:layout_alignBottom="@+id/edit_phone"
     android:drawableLeft="@drawable/call"/>
     <EditText
 

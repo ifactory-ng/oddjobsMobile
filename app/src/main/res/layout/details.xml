@@ -33,7 +33,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
         <ImageView
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="30dp"
             android:layout_width="120dp"
             android:layout_height="70dp"
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
+            android:text="location"
             android:layout_below="@+id/name"
             android:layout_marginTop="80dp"
             android:layout_marginLeft="210dp"
@@ -113,7 +113,7 @@
         android:id="@+id/card_view"
         android:layout_gravity="center"
         android:layout_width="370dp"
-        android:layout_height="180dp"
+        android:layout_height="220dp"
         android:layout_below="@+id/card_view1"
         android:layout_marginLeft="7dp"
         card_view:cardElevation="1dp"
@@ -142,6 +142,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:drawableLeft="@drawable/mail"
         android:id="@+id/email"
+        android:layout_marginTop="16dp"
         android:textColor="#ff373737"
         android:layout_below="@+id/location"
         android:layout_alignParentLeft="true"
@@ -155,6 +156,7 @@
         android:drawableLeft="@drawable/contact"
         android:id="@+id/phone"
         android:textColor="#ff373737"
+        android:layout_marginTop="16dp"
         android:layout_below="@+id/email"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

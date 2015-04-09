@@ -28,8 +28,9 @@ private FragmentNavigationDrawer dlDrawer;
         AccountManager mang = (AccountManager) this.getSystemService(ACCOUNT_SERVICE);
         mang.addAccountExplicitly(newAcct, null, null);
         mResolver = getContentResolver();
+ //       mResolver.requestSync(newAcct, "com.ifactory.Oddjobs", savedInstanceState);
 
-        mResolver.setSyncAutomatically(newAcct, "com.ifactory.oddjobs.provider", true);
+        mResolver.setSyncAutomatically(newAcct, "com.ifactory.Oddjobs", true);
         setContentView(R.layout.activity_profile);
         if(getIntent().getExtras() != null) {
 
@@ -55,7 +56,7 @@ else {
     dlDrawer.addNavItem("Profile", "Profile", details.class);
     dlDrawer.addNavItem("Add Skill", "Add Skill", add_product.class);
     dlDrawer.addNavItem("Skill List", "Skill List", skill.class);
-    dlDrawer.selectDrawerItem(0);
+    dlDrawer.selectDrawerItem(2);
 
 
 }

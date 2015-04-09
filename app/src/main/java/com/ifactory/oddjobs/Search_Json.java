@@ -54,9 +54,15 @@ public class Search_Json  extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         contentResolver = getActivity().getApplicationContext().getContentResolver();
-        try{
+        /*try{
         getArguments().getString("query");
 
+
+        } catch (Throwable i){
+            Log.d("search", "search");
+            new Load_from_provider().execute();
+            i.getMessage();
+        }*/
         JSONArray ja = null;
         FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.BY_LIMIT));
         ExecutorService es = Executors.newSingleThreadExecutor();
@@ -70,35 +76,28 @@ public class Search_Json  extends Fragment {
         }
 
         es.shutdown();
-            skill = SkillModel.getData(ja);
+        Log.d("searchResult", ja.toString());
+        skill = SkillModel.getData(ja);
 
-        } catch (Throwable i){
-            Log.d("search", "search");
-            new Load_from_provider().execute();
-            i.getMessage();
-        }
         View v = inflater.inflate(R.layout.search_result, container, false);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
         TextView emptyview = (TextView) v.findViewById(R.id.empty);
-        try{
-        if(!skill.isEmpty()){
 
 
-         mRecyclerView.setVisibility(View.VISIBLE);
-            emptyview.setVisibility(View.GONE);
+
+        // mRecyclerView.setVisibility(View.VISIBLE);
+//            emptyview.setVisibility(View.GONE);
             mRecyclerView.setHasFixedSize(true);
 
             mlayoutManager = new LinearLayoutManager(v.getContext());
             mRecyclerView.setLayoutManager(mlayoutManager);
             mAdapter = new myAdapter(skill);
             mRecyclerView.setAdapter(mAdapter);
-        }
-        }
-        catch (Throwable t){
-            mRecyclerView.setVisibility(View.GONE);
-            emptyview.setVisibility(View.VISIBLE);
-            t.getMessage();
-        }
+
+        //    mRecyclerView.setVisibility(View.GONE);
+         //   emptyview.setVisibility(View.VISIBLE);
+            //getMessage();
+
 
         return v;
     }

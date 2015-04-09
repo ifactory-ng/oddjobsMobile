@@ -71,10 +71,10 @@ public class details extends android.support.v4.app.Fragment{
 //        id = editor.getString("_id", "id");
   //      String fbid = editor.getString("id", "id");
        address = editor.getString("address","please fill your profile");
-        location = editor.getString("location", "please fill your profile");
+        location = editor.getString("location", " ");
         phone = editor.getString("phone", "please fill your profile");
         about = editor.getString("about", "please fill your profile");
-        name = editor.getString("name", "please fill your profile");
+        name = editor.getString("name", " ");
         email = editor.getString("email", "please fill your profile");
             }
 

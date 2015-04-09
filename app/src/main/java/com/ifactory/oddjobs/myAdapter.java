@@ -35,17 +35,18 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
             super(v);
 
             desc = (TextView) v.findViewById(R.id.description);
-         //   user_name = (TextView) v.findViewById(R.id.user_name);
-            locale = (TextView) v.findViewById(R.id.locale);
+            user_name = (TextView) v.findViewById(R.id.skill_name);
+//            locale = (TextView) v.findViewById(R.id.locale);
             rating = (RatingBar) v.findViewById(R.id.ratingBar2);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d("recycler", desc.getText().toString());
                     SkillModel md = (SkillModel) v.getTag();
                     Intent i = new Intent(c.getApplicationContext(),product_result.class);
                     i.putExtra("id", md.id);
                     c.startActivity(i);
-                    Log.d("recycler", desc.getText().toString());
+
 
 
 
@@ -62,9 +63,9 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(myAdapter.ViewHolder holder, int position) {
     SkillModel model = skill.get(position);
-        holder.user_name.setText(model.name);
+        holder.user_name.setText(model.Title);
         holder.desc.setText(model.desc);
-        holder.locale.setText(model.location);
+  //      holder.locale.setText(model.location);
         holder.rating.setNumStars(model.rating);
 
 
@@ -72,6 +73,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 0;
+
+        return skill.size();
     }
 }
