@@ -27,7 +27,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView desc, user_name, locale;
+        public TextView desc, user_name, locale, addr, skills;
         public RatingBar rating;
         Context c;
 
@@ -35,15 +35,17 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
             super(v);
 
             desc = (TextView) v.findViewById(R.id.description);
-            user_name = (TextView) v.findViewById(R.id.skill_name);
-//            locale = (TextView) v.findViewById(R.id.locale);
+            skills = (TextView) v.findViewById(R.id.skill_name);
+            user_name = (TextView) v.findViewById(R.id.skillusername);
+            locale = (TextView) v.findViewById(R.id.skill_location);
             rating = (RatingBar) v.findViewById(R.id.ratingBar2);
+            addr = (TextView) v.findViewById(R.id.skill_address);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d("recycler", desc.getText().toString());
                     SkillModel md = (SkillModel) v.getTag();
-                    Intent i = new Intent(c.getApplicationContext(),product_result.class);
+                    Intent i = new Intent(c, product_result.class);
                     i.putExtra("id", md.id);
                     c.startActivity(i);
 
@@ -63,9 +65,11 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(myAdapter.ViewHolder holder, int position) {
     SkillModel model = skill.get(position);
-        holder.user_name.setText(model.Title);
+        holder.skills.setText(model.Title);
         holder.desc.setText(model.desc);
-  //      holder.locale.setText(model.location);
+        holder.addr.setText(model.addr);
+        holder.user_name.setText(model.username);
+        holder.locale.setText(model.location);
         holder.rating.setNumStars(model.rating);
 
 

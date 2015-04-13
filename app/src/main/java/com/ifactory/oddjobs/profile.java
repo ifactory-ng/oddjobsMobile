@@ -28,8 +28,7 @@ private FragmentNavigationDrawer dlDrawer;
         AccountManager mang = (AccountManager) this.getSystemService(ACCOUNT_SERVICE);
         mang.addAccountExplicitly(newAcct, null, null);
         mResolver = getContentResolver();
- //       mResolver.requestSync(newAcct, "com.ifactory.Oddjobs", savedInstanceState);
-
+ //    mResolver.requestSync(newAcct, "com.ifactory.Oddjobs", savedInstanceState);
         mResolver.setSyncAutomatically(newAcct, "com.ifactory.Oddjobs", true);
         setContentView(R.layout.activity_profile);
         if(getIntent().getExtras() != null) {

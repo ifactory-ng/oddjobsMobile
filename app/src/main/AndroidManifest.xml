@@ -36,7 +36,8 @@
             android:exported="true"
             android:syncable="true"/>
         <service
-            android:name="com.ifactory.oddjobs.AuthenticatorService">
+            android:name="com.ifactory.oddjobs.AuthenticatorService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>

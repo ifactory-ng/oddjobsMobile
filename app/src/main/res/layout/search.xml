@@ -8,40 +8,65 @@
     android:id="@+id/card_view"
     android:layout_marginTop="30dp"
     android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:layout_gravity="center"
     android:layout_width="340dp"
     android:layout_height="200dp"
-    card_view:cardElevation="10dp"
-    card_view:cardCornerRadius="4dp">
+    card_view:cardElevation="4dp"
+    >
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="skill"
         android:id="@+id/skill_name"
         android:layout_gravity="top"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="10dp"
+        android:layout_alignBottom="@+id/skillusername"
+        android:layout_toRightOf="@+id/skillusername"
+        android:layout_marginLeft="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/skillusername"
+        android:layout_marginTop="16dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:text="Name"
+        android:layout_below="@+id/skill_address"
+        android:layout_marginLeft="30dp"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/skill_location"
+        android:layout_alignBottom="@+id/skill_address"
+        android:layout_marginLeft="16dp"/>
 
     <TextView
-        android:layout_width="180dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="address"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginTop="12dp"
         android:id="@+id/skill_address"
-        />
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/skill_location"
+        android:layout_alignParentTop="true"
+         />
 
     <TextView
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/description"
-        android:layout_marginLeft="20dp"
-        android:layout_alignStart="@+id/locale"
-        android:layout_marginTop="70dp" />
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_below="@+id/skillusername"
+        />
 
 
     <RatingBar
@@ -50,6 +75,8 @@
         android:layout_marginTop="150dp"
         android:layout_marginLeft="10dp"
         android:id="@+id/ratingBar2"
-        android:layout_centerHorizontal="true" />
+        android:isIndicator="true"
+        />
+</RelativeLayout>
 </android.support.v7.widget.CardView>
 </RelativeLayout>

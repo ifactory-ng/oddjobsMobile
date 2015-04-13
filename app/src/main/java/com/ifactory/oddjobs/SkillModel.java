@@ -1,6 +1,5 @@
 package com.ifactory.oddjobs;
 
-import android.database.Cursor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,10 +14,9 @@ public class SkillModel {
     public String Title;
     public String id;
     String location;
-    String name;
     int rating;
-    String desc;
-    JSONObject jb;
+    String desc, addr, username;
+
     public SkillModel(JSONObject object) {
         try
         {
@@ -28,6 +26,8 @@ public class SkillModel {
             this.desc = object.getString("Description");
             this.location = object.getString("Location");
          this.rating = object.getInt("Rating");
+            this.addr = object.getString("Address");
+            this.username = object.getString("UserName");
 //            this.jb = object;
     }
     catch(JSONException e){
