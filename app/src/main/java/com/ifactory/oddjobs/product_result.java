@@ -3,24 +3,43 @@ package com.ifactory.oddjobs;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.gc.materialdesign.views.ButtonFloat;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 /**
  * Created by smilecs on 2/18/15.
@@ -28,25 +47,53 @@ import java.io.IOException;
 public class product_result extends Activity {
     ImageView productView;
     TextView product_title, product_desc, product_location, product_address, product_phone, username;
-    Button review, bookmark;
+    //Button review, bookmark;
     Context c;
     String id;
+    String ids;
     RatingBar rt3;
+    ButtonFloat bookmark;
+    Bitmap pic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Context context = getApplicationContext();
         setContentView(R.layout.product_result);
         product_title = (TextView)findViewById(R.id.product_title);
         product_desc = (TextView)findViewById(R.id.product_about);
         product_location = (TextView)findViewById(R.id.product_locale);
         product_address = (TextView)findViewById(R.id.product_address);
-        product_phone =(TextView)findViewById(R.id.product_number);
+        product_phone =(TextView)findViewById(R.id.product_numbr);
         username = (TextView)findViewById(R.id.skillowner);
         productView = (ImageView)findViewById(R.id.imageView1);
         rt3 = (RatingBar) findViewById(R.id.ratingBar3);
+        bookmark = (ButtonFloat) findViewById(R.id.bookmarksubmit);
+        bookmark.setOnClickListener(new ButtonFloat.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+                ids = editor.getString("_id", "id");
+                if(ids == "id"){
+                    Toast.makeText(context, "please login to use this feature", Toast.LENGTH_SHORT).show();
+
+                }else {
+                    List<NameValuePair> value = new ArrayList<NameValuePair>(4);
+                    value.add(new BasicNameValuePair("Name", username.getText().toString()));
+                    value.add(new BasicNameValuePair("SkillName", product_title.getText().toString()));
+                    value.add(new BasicNameValuePair("Id", id));
+                    value.add(new BasicNameValuePair("Phone", product_phone.getText().toString()));
+
+//                String id ="963176113698271";
+                    Log.d("test", id);
+                    FutureTask<String> Jarray = new FutureTask<String>(new PostData(value, routes.BOOKMARK + ids));
+                    ExecutorService es = Executors.newSingleThreadExecutor();
+                    es.submit(Jarray);
+                    es.shutdown();
+                }
+            }
+        });
         new GetData().execute();
 
-        
 
     }
 
@@ -79,6 +126,7 @@ public class product_result extends Activity {
                HttpGet get = new HttpGet(routes.GET_SKILL + getIntent().getStringExtra("id"));
                HttpResponse response = httpclient.execute(get);
                result = EntityUtils.toString(response.getEntity());
+               //calls(id);
            }
            catch (IOException i){
            i.getMessage();
@@ -112,6 +160,8 @@ public class product_result extends Activity {
                 product_desc.setText(jo.getString("Description"));
                 username.setText(jo.getString("UserName"));
                 rt3.setNumStars(Integer.parseInt(jo.getString("Rating")));
+               pic = Fbpic.profile_pic(id);
+                productView.setImageBitmap(pic);
 
             }
             catch(JSONException j ){
@@ -119,6 +169,4 @@ public class product_result extends Activity {
             }
         }
     }
-
-
 }

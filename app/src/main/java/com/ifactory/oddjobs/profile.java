@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import android.widget.ListView;
 public class profile extends ActionBarActivity implements skill.Communicator {
 private FragmentNavigationDrawer dlDrawer;
     ContentResolver mResolver;
+    String id;
     public static final String ACCOUNT = "com.ifactory.oddjobs";
 
     @Override
@@ -29,7 +31,7 @@ private FragmentNavigationDrawer dlDrawer;
         mang.addAccountExplicitly(newAcct, null, null);
         mResolver = getContentResolver();
  //    mResolver.requestSync(newAcct, "com.ifactory.Oddjobs", savedInstanceState);
-        mResolver.setSyncAutomatically(newAcct, "com.ifactory.Oddjobs", true);
+        mResolver.setSyncAutomatically(newAcct, "com.ifactory.Oddjobs.provider", true);
         setContentView(R.layout.activity_profile);
         if(getIntent().getExtras() != null) {
 
@@ -47,15 +49,16 @@ private FragmentNavigationDrawer dlDrawer;
     ft.commit();
 }
 else {
-
+            SharedPreferences editor = getSharedPreferences(getString(R.string.preference_file_name), MODE_PRIVATE);
+        id = editor.getString("_id", "id");
 
     dlDrawer = (FragmentNavigationDrawer) findViewById(R.id.drawerlayout);
     dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.drawerList), R.layout.drawer_item, R.id.mainContent);
     dlDrawer.addNavItem("Search", "Search", Search_Json.class);
     dlDrawer.addNavItem("Profile", "Profile", details.class);
-    dlDrawer.addNavItem("Add Skill", "Add Skill", add_product.class);
     dlDrawer.addNavItem("Skill List", "Skill List", skill.class);
-    dlDrawer.selectDrawerItem(2);
+    dlDrawer.addNavItem("Bookmarks", "Bookmarks", Bookmark.class);
+            dlDrawer.selectDrawerItem(1);
 
 
 }

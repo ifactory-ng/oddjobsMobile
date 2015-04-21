@@ -37,6 +37,7 @@ public class Search_Json  extends Fragment {
     private RecyclerView.LayoutManager mlayoutManager;
     private static final String AUTHORITY = "com.ifactory.Oddjobs";
     private static final String PREFIX = "content://" + AUTHORITY + "/";
+    TextView emptyview;
 
     ArrayList<SkillModel> skill;
     Context context;
@@ -54,46 +55,51 @@ public class Search_Json  extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         contentResolver = getActivity().getApplicationContext().getContentResolver();
-        /*try{
-        getArguments().getString("query");
+        try{
+            JSONArray ja = null;
+            getArguments().getString("query");
+            FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.BY_LIMIT));
+            ExecutorService es = Executors.newSingleThreadExecutor();
+            es.submit(Jarray);
+            try {
+                ja = Jarray.get();
+            } catch (InterruptedException i) {
+                i.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            es.shutdown();
+            Log.d("searchResult", ja.toString());
+            skill = SkillModel.getData(ja);
+
 
 
         } catch (Throwable i){
             Log.d("search", "search");
             new Load_from_provider().execute();
             i.getMessage();
-        }*/
-        JSONArray ja = null;
-        FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.BY_LIMIT));
-        ExecutorService es = Executors.newSingleThreadExecutor();
-        es.submit(Jarray);
-        try {
-            ja = Jarray.get();
-        } catch (InterruptedException i) {
-            i.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
         }
-
-        es.shutdown();
-        Log.d("searchResult", ja.toString());
-        skill = SkillModel.getData(ja);
-
-        View v = inflater.inflate(R.layout.search_result, container, false);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
-        TextView emptyview = (TextView) v.findViewById(R.id.empty);
+        /*
+*/View v = inflater.inflate(R.layout.search_result, container, false);
+    try {
 
 
+    mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
+    emptyview = (TextView) v.findViewById(R.id.empty);
 
-        // mRecyclerView.setVisibility(View.VISIBLE);
-//            emptyview.setVisibility(View.GONE);
-            mRecyclerView.setHasFixedSize(true);
+    mRecyclerView.setHasFixedSize(true);
 
-            mlayoutManager = new LinearLayoutManager(v.getContext());
-            mRecyclerView.setLayoutManager(mlayoutManager);
-            mAdapter = new myAdapter(skill);
-            mRecyclerView.setAdapter(mAdapter);
+    mlayoutManager = new LinearLayoutManager(v.getContext());
+    mRecyclerView.setLayoutManager(mlayoutManager);
+    mAdapter = new myAdapter(skill);
+    mRecyclerView.setAdapter(mAdapter);
+}catch(NullPointerException npe){
+    npe.getMessage();
+    mRecyclerView.setVisibility(View.GONE);
+    emptyview.setVisibility(View.VISIBLE);
 
+}
         //    mRecyclerView.setVisibility(View.GONE);
          //   emptyview.setVisibility(View.VISIBLE);
             //getMessage();

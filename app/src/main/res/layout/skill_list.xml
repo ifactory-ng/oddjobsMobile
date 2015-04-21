@@ -11,4 +11,8 @@
         android:dividerHeight="1dp"
         android:layout_gravity="center_vertical"
          />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/emptyview"/>
 </LinearLayout>

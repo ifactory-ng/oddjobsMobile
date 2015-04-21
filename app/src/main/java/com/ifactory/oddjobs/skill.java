@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -50,9 +52,9 @@ public class skill extends ListFragment{
 
         super.onCreate(savedInstanceState);
         Context c = getActivity();
-      //  SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
-//      id = editor.getString("_id", "id");
-        id="5516c392ea37b5030f4158d2";
+   SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+  id = editor.getString("_id", "id");
+        //id="5516c392ea37b5030f4158d2";
       //  jo = new Jobject(routes.GET_USER_PRODUCTS + id);
 
 
@@ -64,6 +66,7 @@ public class skill extends ListFragment{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.skill_list, container, false);
 lv = (ListView)v.findViewById(android.R.id.list);
+        TextView empty = (TextView) v.findViewById(R.id.emptyview);
     
         FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.GET_SKILLs+ "profile"));
         ExecutorService es = Executors.newSingleThreadExecutor();
@@ -78,15 +81,19 @@ lv = (ListView)v.findViewById(android.R.id.list);
             e.printStackTrace();
         }
         es.shutdown();
-
+try {
 
 //        Log.d("test", ja.toString());
+empty.setVisibility(View.GONE);
+    skill = SkillModel.getData(ja);
 
-          skill = SkillModel.getData(ja);
-
-          mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
-          lv.setAdapter(mAdapt);
-          // Inflate the layout for this fragment
+    mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
+    lv.setAdapter(mAdapt);
+}catch(NullPointerException e){
+    e.getMessage();
+    lv.setVisibility(View.GONE);
+    empty.setVisibility(View.VISIBLE);
+}
 
         return v;
     }

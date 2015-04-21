@@ -147,7 +147,7 @@ public class fb_login extends Activity{
                             Log.d("result", result);
                             JSONObject newId = new JSONObject(result);
 
-                            String _id = newId.getString("_id");
+                            String _id = newId.getString("userid");
                             editor.putString("_id", _id);
                             JSONObject ja = null;
                             FutureTask<JSONObject> Jobj = new FutureTask<JSONObject>(new GetData(routes.PROFILE+ _id));
