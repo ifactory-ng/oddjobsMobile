@@ -22,7 +22,7 @@
 <FrameLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#1E88E5"
+    android:background="#969"
     android:id="@+id/frame">
     <ImageView
         android:layout_width="130dp"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="200dp"
         android:text="Smile Mmumene"
-
+        android:textColor="#d3d3d3"
         android:id="@+id/skillowner"
         android:textAppearance="?android:textAppearanceMedium"
         android:layout_marginTop="24dp"
@@ -48,12 +48,21 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="230dp"
         android:id="@+id/product_locale"
+        android:textColor="#d3d3d3"
         android:textAppearance="?android:textAppearanceSmall"
         android:layout_below="@+id/skillowner"
         android:text="Calabar"
         android:layout_marginTop="59dp" />
 
 </FrameLayout>
+    <com.gc.materialdesign.views.ButtonFloat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="290dp"
+        android:layout_marginTop="90dp"
+        android:id="@+id/bookmarkbutton"
+        materialdesign:iconDrawable="@mipmap/bookmark"
+        />
 
         <TextView
             android:layout_width="350dp"
@@ -66,17 +75,11 @@
             android:layout_below="@+id/product_title"
             android:background="#fff6f6f6" />
 
-        <com.gc.materialdesign.views.ButtonFloat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="290dp"
-            android:layout_marginTop="90dp"
-            materialdesign:iconDrawable="@mipmap/bookmark"
-            />
+
     <TextView
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="Electrician"
+        android:text="Skill Title"
         android:id="@+id/product_title"
         android:layout_below="@+id/frame"
         android:layout_marginTop="10dp"
@@ -100,7 +103,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/card5"
         android:layout_below="@+id/card_view4"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="36dp">
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
@@ -150,15 +153,21 @@
         android:id="@+id/product_address"
         android:layout_alignStart="@+id/product_numbr" />
 
-
-    <RatingBar
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBottom="@+id/ratingBar3"
+    android:text="Rating:"
+    android:id="@+id/ratingtext"
+    android:layout_alignStart="@+id/product_numbr"/>
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ratingBar3"
         android:layout_below="@+id/product_numbr"
-        android:layout_alignStart="@+id/product_numbr"
+        android:layout_toRightOf="@+id/ratingtext"
         android:layout_marginBottom="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         />
 
         </RelativeLayout>
@@ -168,7 +177,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#1E88E5"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="24dp"
         android:layout_below="@+id/card5"
         android:layout_marginLeft="240dp"
         android:text="Review" />

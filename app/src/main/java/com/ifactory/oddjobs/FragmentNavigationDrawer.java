@@ -72,11 +72,22 @@ public class FragmentNavigationDrawer extends DrawerLayout {
     public void selectDrawerItem(int position) {
         // Create a new fragment and specify the planet to show based on
         // position
-        FragmentNavItem navItem = drawerNavItems.get(position);
+
+            //   getIntent().getStringExtra("query");
+            // String data = Jobject.toString();
+
+//             p.setArguments(args);
+
+            FragmentNavItem navItem = drawerNavItems.get(position);
         Fragment fragment = null;
         try {
             fragment = navItem.getFragmentClass().newInstance();
             Bundle args = navItem.getFragmentArgs();
+            if(getActivity().getIntent().getExtras() != null) {
+
+                args.putString("location", getActivity().getIntent().getStringExtra("location"));
+                args.putString("query", getActivity().getIntent().getStringExtra("query"));
+            }
             if (args != null) {
                 fragment.setArguments(args);
             }

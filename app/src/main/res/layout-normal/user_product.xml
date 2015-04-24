@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/userlayoutproduct"
+    >
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:id="@+id/fr"
+        android:background="#969">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_product_name"
+            android:text="Skill"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textColor="#fff"
+            android:layout_alignStart="@+id/user_product_phone"
+            android:layout_below="@+id/textView2"
+            android:layout_alignRight="@+id/user_product_location"
+            android:layout_alignEnd="@+id/user_product_location" />
+    </FrameLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_product_desc"
+        android:layout_weight="0.31"
+        android:layout_below="@+id/fr"
+        android:layout_above="@+id/user_product_phone"
+        android:layout_alignRight="@+id/user_product_location"
+        android:layout_alignEnd="@+id/user_product_location"
+        android:layout_marginTop="24dp" />
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_product_phone"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:drawableLeft="@drawable/loc"
+        android:layout_toLeftOf="@+id/search_location"
+        android:id="@+id/user_product_location"
+        android:layout_marginLeft="10dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/home"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/user_product_location"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/user_product_address" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:drawableLeft="@drawable/call"
+        android:layout_below="@+id/fr"
+        android:layout_alignStart="@+id/user_product_address"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/user_product_phone"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ratingBar"
+        android:text="Rating:"
+        android:layout_alignStart="@+id/user_product_phone"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:id="@+id/textView4" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_product_address"
+        android:id="@+id/ratingBar"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="16dp"/>
+
+
+</RelativeLayout>

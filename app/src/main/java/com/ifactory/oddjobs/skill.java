@@ -3,6 +3,7 @@ package com.ifactory.oddjobs;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
@@ -15,24 +16,27 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.Button;
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.views.ButtonFloat;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link skill.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link skill#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
 public class skill extends ListFragment{
 
  //   private OnFragmentInteractionListener mListener;
@@ -40,9 +44,12 @@ public class skill extends ListFragment{
     ArrayList<SkillModel> skill;
 //    Jobject jo;
     ListView lv;
+    TextView empty;
     String id;
+    SharedPreferences editor;
     Communicator com;
-    JSONArray ja = null;
+    //JSONArray ja = null;
+ButtonFloat floatadd;
     public interface Communicator {
         public void itemSelected(String Jobject);
 
@@ -52,8 +59,8 @@ public class skill extends ListFragment{
 
         super.onCreate(savedInstanceState);
         Context c = getActivity();
-   SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
-  id = editor.getString("_id", "id");
+   editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+
         //id="5516c392ea37b5030f4158d2";
       //  jo = new Jobject(routes.GET_USER_PRODUCTS + id);
 
@@ -65,10 +72,19 @@ public class skill extends ListFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.skill_list, container, false);
-lv = (ListView)v.findViewById(android.R.id.list);
-        TextView empty = (TextView) v.findViewById(R.id.emptyview);
-    
-        FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.GET_SKILLs+ "profile"));
+        lv = (ListView)v.findViewById(android.R.id.list);
+        empty = (TextView) v.findViewById(R.id.emptyview);
+    floatadd = (ButtonFloat) v.findViewById(R.id.floatadd);
+        floatadd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add_product add = new add_product();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.mainContent, add).commit();
+            }
+        });
+        new GetSkill().execute();
+      /*  FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.GET_SKILLs+ id));
         ExecutorService es = Executors.newSingleThreadExecutor();
         es.submit(Jarray);
         try{
@@ -80,20 +96,7 @@ lv = (ListView)v.findViewById(android.R.id.list);
         catch (ExecutionException e){
             e.printStackTrace();
         }
-        es.shutdown();
-try {
-
-//        Log.d("test", ja.toString());
-empty.setVisibility(View.GONE);
-    skill = SkillModel.getData(ja);
-
-    mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
-    lv.setAdapter(mAdapt);
-}catch(NullPointerException e){
-    e.getMessage();
-    lv.setVisibility(View.GONE);
-    empty.setVisibility(View.VISIBLE);
-}
+        es.shutdown();*/
 
         return v;
     }
@@ -151,5 +154,52 @@ empty.setVisibility(View.GONE);
 
 
 
+    }
+    private class GetSkill extends AsyncTask<String, Void, String>{
+        @Override
+        protected String doInBackground(String... params) {
+            String result = " ";
+            try {
+                id = editor.getString("_id", "id");
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet get = new HttpGet(routes.GET_SKILLs + id);
+
+                HttpResponse response = httpclient.execute(get);
+                result = EntityUtils.toString(response.getEntity());
+
+//            JSONObject rss = new JSONObject(result);
+
+            }
+            catch(ClientProtocolException cpe){
+                cpe.getMessage();
+            }
+            catch(IOException i){
+                i.getMessage();
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            try {
+                JSONArray ja = new JSONArray(s);
+                Log.d("resultdata", ja.toString());
+//        Log.d("test", ja.toString());
+                empty.setVisibility(View.GONE);
+                skill = SkillModel.getData(ja);
+                Log.d("skill",skill.toString());
+                mAdapt = new pro_adapter(getActivity().getBaseContext(), skill);
+                lv.setAdapter(mAdapt);
+            }
+            catch(NullPointerException e){
+                e.getMessage();
+                lv.setVisibility(View.GONE);
+                empty.setVisibility(View.VISIBLE);
+            }catch (JSONException j){
+                j.getMessage();
+            }
+
+        }
     }
 }

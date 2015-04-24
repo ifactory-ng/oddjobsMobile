@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.facebook.Session;
 
 
 public class profile extends ActionBarActivity implements skill.Communicator {
@@ -33,36 +34,31 @@ private FragmentNavigationDrawer dlDrawer;
  //    mResolver.requestSync(newAcct, "com.ifactory.Oddjobs", savedInstanceState);
         mResolver.setSyncAutomatically(newAcct, "com.ifactory.Oddjobs.provider", true);
         setContentView(R.layout.activity_profile);
-        if(getIntent().getExtras() != null) {
 
-    getIntent().getStringExtra("query");
-    Search_Json p = new Search_Json();
-    Bundle args = new Bundle();
-    // String data = Jobject.toString();
-
-    args.putString("location", getIntent().getStringExtra("location"));
-    args.putString("query", getIntent().getStringExtra("query"));
-    p.setArguments(args);
-    FragmentManager fm = getSupportFragmentManager();
-    FragmentTransaction ft = fm.beginTransaction();
-    ft.add(R.id.mainContent, p).addToBackStack(null);
-    ft.commit();
-}
-else {
             SharedPreferences editor = getSharedPreferences(getString(R.string.preference_file_name), MODE_PRIVATE);
         id = editor.getString("_id", "id");
+            dlDrawer = (FragmentNavigationDrawer) findViewById(R.id.drawerlayout);
+            dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.drawerList), R.layout.drawer_item, R.id.mainContent);
+            if(id == "id"){
+                dlDrawer.addNavItem("Feeds", "Oddjobs", Search_Json.class);
+                dlDrawer.addNavItem("Login", "Login", fb_login.class);
+            }
+            else {
 
-    dlDrawer = (FragmentNavigationDrawer) findViewById(R.id.drawerlayout);
-    dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.drawerList), R.layout.drawer_item, R.id.mainContent);
-    dlDrawer.addNavItem("Search", "Search", Search_Json.class);
-    dlDrawer.addNavItem("Profile", "Profile", details.class);
-    dlDrawer.addNavItem("Skill List", "Skill List", skill.class);
-    dlDrawer.addNavItem("Bookmarks", "Bookmarks", Bookmark.class);
+                dlDrawer.addNavItem("Feeds", "Feeds", Search_Json.class);
+                dlDrawer.addNavItem("Profile", "Oddjobs", details.class);
+                dlDrawer.addNavItem("Skill List", "Oddjobs", skill.class);
+                dlDrawer.addNavItem("Bookmarks", "Oddjobs", Bookmark.class);
+
+
+            }
+        if(getIntent().getExtras() != null) {
+            dlDrawer.selectDrawerItem(0);
+        }else{
             dlDrawer.selectDrawerItem(1);
-
-
-}
         }
+}
+
 
 
 
@@ -123,5 +119,12 @@ else {
         //addToBackStack("skill");
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+        Intent i = new Intent(getApplicationContext(), profile.class);
+        startActivity(i);
 
+    }
 }

@@ -15,7 +15,9 @@ android {
             minifyEnabled true
         }
     }
-    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/xml'] } }
+    sourceSets {
+        main { res.srcDirs = ['src/main/res', 'src/main/res/xml', 'src/main/res/layout-small'] }
+    }
 }
 
 

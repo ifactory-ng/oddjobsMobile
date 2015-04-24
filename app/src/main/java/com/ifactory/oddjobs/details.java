@@ -63,22 +63,57 @@ public class details extends android.support.v4.app.Fragment{
     ImageView px;
     String id;
     Bitmap pic;
+    JSONObject ja = null;
     //RoundImage rd;
+    SharedPreferences sharedpref;
+    SharedPreferences.Editor editor;
     ButtonFloat edit;
-
+    String fbid;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
          c = getActivity();
-        SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
-//        id = editor.getString("_id", "id");
-  //      String fbid = editor.getString("id", "id");
-       address = editor.getString("address","please fill your profile");
-        location = editor.getString("location", " ");
-        phone = editor.getString("phone", "please fill your profile");
-        about = editor.getString("about", "please fill your profile");
-        name = editor.getString("name", " ");
-        email = editor.getString("email", "please fill your profile");
+        Log.d("catch", "called2");
+//        c =g
+        sharedpref = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+        editor = sharedpref.edit();
+        id = sharedpref.getString("_id", "id");
+        Log.d("userid", id);
+        String url = routes.PROFILE + id;
+if(id == "id") {
+
+    FutureTask<JSONObject> Jobj = new FutureTask<JSONObject>(new GetData(url));
+    ExecutorService es = Executors.newSingleThreadExecutor();
+    es.submit(Jobj);
+    try {
+        ja = Jobj.get();
+    } catch (InterruptedException i) {
+        i.printStackTrace();
+    } catch (ExecutionException e) {
+        e.printStackTrace();
+    }
+    es.shutdown();
+    try {
+        if (!ja.toString().isEmpty()) {
+            editor.putString("location", ja.getString("location"));
+            editor.putString("phone", ja.getString("phone"));
+            editor.putString("about", ja.getString("about"));
+            editor.putString("address", ja.getString("address"));
+        }
+    } catch (JSONException e) {
+        e.getMessage();
+    }catch(NullPointerException npe){
+        npe.getMessage();
+    }
+}
+
+
+       address = sharedpref.getString("address","please fill your profile");
+        location = sharedpref.getString("location", " ");
+        phone = sharedpref.getString("phone", "please fill your profile");
+        about = sharedpref.getString("about", "please fill your profile");
+        name = sharedpref.getString("name", " ");
+        email = sharedpref.getString("email", "please fill your profile");
             }
 
     @Override
@@ -86,22 +121,8 @@ public class details extends android.support.v4.app.Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        String fbid ="963176113698271";
-
-        FutureTask<Bitmap> task = new FutureTask<Bitmap>(new Facebook_pic(fbid));
-        ExecutorService es = Executors.newSingleThreadExecutor();
-        es.submit(task);
-        try{
-            pic = task.get();
-        }
-        catch (InterruptedException i){
-            i.printStackTrace();
-        }
-        catch (ExecutionException e){
-            e.printStackTrace();
-        }
-        es.shutdown();
-
+//        String fbid ="963176113698271";
+        Log.d("catch", "called1");
 
         View v = inflater.inflate(R.layout.details, container, false);
            user_email = (TextView) v.findViewById(R.id.email);
@@ -120,7 +141,7 @@ public class details extends android.support.v4.app.Fragment{
         user_location.setText(location);
         user_address.setText(address);
         user_phone.setText(phone);
-        px.setImageBitmap(Fbpic.getRoundedShape(pic));
+        new GetPic().execute();
         edit = (ButtonFloat) v.findViewById(R.id.float_edit);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +149,7 @@ public class details extends android.support.v4.app.Fragment{
                 edit edit = new edit();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-                fragmentManager.beginTransaction().addToBackStack("details").replace(R.id.mainContent, edit).commit();
+                fragmentManager.beginTransaction().addToBackStack(null).replace(R.id.mainContent, edit).commit();
 
             }
         });
@@ -143,7 +164,28 @@ public class details extends android.support.v4.app.Fragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-       }
+        Log.d("catch", "called");
+        try {
+        fbid = sharedpref.getString("id", "id");
+        FutureTask<Bitmap> task = new FutureTask<Bitmap>(new Facebook_pic(fbid));
+        ExecutorService es = Executors.newSingleThreadExecutor();
+        es.submit(task);
+        try{
+            pic = task.get();
+        }
+        catch (InterruptedException i){
+            i.printStackTrace();
+        }
+        catch (ExecutionException e){
+            e.printStackTrace();
+        }
+        es.shutdown();
+
+
+        }catch (NullPointerException npe){
+            npe.getMessage();
+        }
+    }
 
     @Override
     public void onDetach() {
@@ -179,6 +221,34 @@ public class details extends android.support.v4.app.Fragment{
             return bitmap;
 
 
+        }
+    }
+    private class GetPic extends AsyncTask<Bitmap, Void, Bitmap>{
+        @Override
+        protected Bitmap doInBackground(Bitmap... params) {
+            Bitmap bitmap = null;
+            try{
+            fbid = sharedpref.getString("id", "id");
+            final String nomimg = "https://graph.facebook.com/"+id+"/picture?type=large";
+            URL imageURL = new URL(nomimg);
+            Log.d("url", nomimg);
+            HttpURLConnection connection = (HttpURLConnection) imageURL.openConnection();
+            connection.setDoInput(true);
+            connection.setInstanceFollowRedirects( true );
+            connection.connect();
+            InputStream inputStream = connection.getInputStream();
+            bitmap = BitmapFactory.decodeStream(inputStream);
+            }
+            catch (IOException i){
+                i.getMessage();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            px.setImageBitmap(pic);
         }
     }
 

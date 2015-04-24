@@ -9,11 +9,16 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -55,26 +60,30 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 
-public class fb_login extends Activity{
+public class fb_login extends Fragment{
     //private static final List<String> PERMISSIONS = Arrays.asList("email");
     static final String APP_ID = "747991285264118";
     Button login_btn;
     Facebook fb = new Facebook(APP_ID);
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
+    Context c;
     //String email;
 //    Intent i;
 //    AsyncFacebookRunner mAsyn = new AsyncFacebookRunner(fb);
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fb_login);
-        sharedPref = getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE);
+       // setContentView(R.layout.activity_fb_login);
+ c = getActivity();
+        sharedPref = c.getSharedPreferences(getString(R.string.preference_file_name), Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 //       editor.clear();
 
+
+
         try {
-            PackageInfo info = getPackageManager().getPackageInfo(
+            PackageInfo info = c.getPackageManager().getPackageInfo(
                     "com.ifactory.oddjobs",
                     PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
@@ -91,7 +100,16 @@ public class fb_login extends Activity{
         //Log.d("access", fb.getAccessToken());
 
 
-        login_btn = (Button) findViewById(R.id.auth);
+
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.activity_fb_login, container, false);
+        login_btn = (Button) v.findViewById(R.id.auth);
         login_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,17 +117,15 @@ public class fb_login extends Activity{
             }
         });
 
-
-
+        return v;
     }
 
-
     public void fbAuth(final View v){
-        fb.authorize(this, new String[]{"publish_stream", "email"}, new Facebook.DialogListener() {
+        fb.authorize(getActivity(), new String[]{"publish_stream", "email"}, new Facebook.DialogListener() {
             @Override
             public void onComplete(Bundle values) {
                 AsyncFacebookRunner mAsyn = new AsyncFacebookRunner(fb);
-                mAsyn.request("me", new AsyncFacebookRunner.RequestListener(){
+                mAsyn.request("me", new AsyncFacebookRunner.RequestListener() {
 
                     @Override
                     public void onComplete(String response, Object state) {
@@ -130,55 +146,34 @@ public class fb_login extends Activity{
                             value.add(new BasicNameValuePair("provider", "facebook"));
                             Log.d("json ", id);
                 /*add facebook values to sharepreferences for application level access
-                 */         editor.putString("email", email);
+                 */
+                            editor.putString("email", email);
                             editor.putString("id", id);
                             editor.putString("name", name);
 
                             httpclient = new DefaultHttpClient();
                             httpPost = new HttpPost(routes.AUTHENTICATE);
 
-                           httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+                            httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
                             httpPost.setHeader("Accept-Language", "en-US");
                             httpPost.setEntity(new UrlEncodedFormEntity(value));
-                           // DataLoader dl = new DataLoader();
+                            // DataLoader dl = new DataLoader();
                             HttpResponse res = httpclient.execute(httpPost);
 
                             String result = EntityUtils.toString(res.getEntity());
-                            Log.d("result", result);
-                            JSONObject newId = new JSONObject(result);
+                            Log.d("what", result);
+                              JSONObject results = new JSONObject(result);
 
-                            String _id = newId.getString("userid");
-                            editor.putString("_id", _id);
-                            JSONObject ja = null;
-                            FutureTask<JSONObject> Jobj = new FutureTask<JSONObject>(new GetData(routes.PROFILE+ _id));
-                            ExecutorService es = Executors.newSingleThreadExecutor();
-                            es.submit(Jobj);
-                            try {
-                                ja = Jobj.get();
-                            } catch (InterruptedException i) {
-                                i.printStackTrace();
-                            } catch (ExecutionException e) {
-                                e.printStackTrace();
-                            }
-                            es.shutdown();
-                            if(!ja.toString().isEmpty()) {
-                                editor.putString("location", ja.getString("location"));
-                                editor.putString("phone", ja.getString("phone"));
-                                editor.putString("about", ja.getString("about"));
-                                editor.putString("address", ja.getString("address"));
-                            }
+                            Log.d("result", result);
+
+
+                            //String _id = newId.getString("userid");
+                            editor.putString("_id", results.getString("Im"));
+                            editor.putString("l", result);
 
                             editor.apply();
                             Log.d("id", sharedPref.getString("id", "id"));
                             Log.d("json response", result);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getApplicationContext(), "accessing account at oddjobs" , Toast.LENGTH_SHORT);
-
-
-                                }
-                            });
 
                         } catch (ClientProtocolException e) {
                             e.printStackTrace();
@@ -186,8 +181,7 @@ public class fb_login extends Activity{
                             e.printStackTrace();
                         } catch (IOException e) {
                             e.printStackTrace();
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
@@ -213,9 +207,9 @@ public class fb_login extends Activity{
                     }
                 });
 
-                Intent i = new Intent(getApplicationContext(), profile.class);
+                //   Intent i = new Intent(getApplicationContext(), profile.class);
 
-                startActivity(i);
+                // startActivity(i);
 
             }
 
@@ -239,16 +233,11 @@ public class fb_login extends Activity{
 
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.fb_login, menu);
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -263,9 +252,10 @@ public class fb_login extends Activity{
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-
+        Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
+        Intent i = new Intent(getActivity().getApplicationContext(), profile.class);
+        startActivity(i);
     }
 }

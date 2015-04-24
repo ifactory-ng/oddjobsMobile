@@ -41,7 +41,7 @@ import java.util.concurrent.FutureTask;
  */
 public class add_product extends Fragment {
 
-    EditText add, locale, tag, desc, p_name;
+    EditText edit_fone, add, locale, tag, desc, p_name;
    ButtonFlat submit;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,21 +61,24 @@ public class add_product extends Fragment {
         locale = (EditText) v.findViewById(R.id.loc);
         tag = (EditText) v.findViewById(R.id.tag_name);
         desc = (EditText) v.findViewById(R.id.desc);
+        edit_fone = (EditText) v.findViewById(R.id.edit_phone);
         p_name = (EditText) v.findViewById(R.id.product_name);
         submit = (ButtonFlat) v.findViewById(R.id.submit);
         submit.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {
-                List<NameValuePair> lt = new ArrayList<NameValuePair>(5);
+                List<NameValuePair> lt = new ArrayList<NameValuePair>(6);
+
                 lt.add(new BasicNameValuePair("skill_name", p_name.getText().toString()));
                 lt.add(new BasicNameValuePair("desc", desc.getText().toString()));
                 lt.add(new BasicNameValuePair("address", add.getText().toString()));
                 lt.add(new BasicNameValuePair("tag", tag.getText().toString()));
+                lt.add(new BasicNameValuePair("phone", edit_fone.getText().toString()));
                 lt.add(new BasicNameValuePair("location", locale.getText().toString()));
                 Context c = getActivity();
                 SharedPreferences editor = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
-//                String id = editor.getString("_id", "id");
-                String id ="963176113698271";
+            String id = editor.getString("_id", "id");
+    //            String id ="963176113698271";
                 Log.d("test", id);
                 FutureTask<String> Jarray = new FutureTask<String>(new PostData(lt, routes.ADD_SKILL + id));
                 ExecutorService es = Executors.newSingleThreadExecutor();

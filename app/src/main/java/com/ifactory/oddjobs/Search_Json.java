@@ -1,5 +1,6 @@
 package com.ifactory.oddjobs;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,11 +18,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -41,63 +48,38 @@ public class Search_Json  extends Fragment {
 
     ArrayList<SkillModel> skill;
     Context context;
-    ContentResolver contentResolver;
-
-
+    //ContentResolver contentResolver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        new Load_from_provider().execute();
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        contentResolver = getActivity().getApplicationContext().getContentResolver();
-        try{
-            JSONArray ja = null;
-            getArguments().getString("query");
-            FutureTask<JSONArray> Jarray = new FutureTask<JSONArray>(new Jobject(routes.BY_LIMIT));
-            ExecutorService es = Executors.newSingleThreadExecutor();
-            es.submit(Jarray);
-            try {
-                ja = Jarray.get();
-            } catch (InterruptedException i) {
-                i.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-
-            es.shutdown();
-            Log.d("searchResult", ja.toString());
-            skill = SkillModel.getData(ja);
-
-
-
-        } catch (Throwable i){
-            Log.d("search", "search");
-            new Load_from_provider().execute();
-            i.getMessage();
-        }
+        //contentResolver = getActivity().getApplicationContext().getContentResolver();
         /*
-*/View v = inflater.inflate(R.layout.search_result, container, false);
+*/
+        View v = inflater.inflate(R.layout.search_result, container, false);
+        //container.addView(v);
+
     try {
 
 
     mRecyclerView = (RecyclerView) v.findViewById(R.id.cardList);
     emptyview = (TextView) v.findViewById(R.id.empty);
+        mlayoutManager = new LinearLayoutManager(v.getContext());
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(mlayoutManager);
 
-    mRecyclerView.setHasFixedSize(true);
 
-    mlayoutManager = new LinearLayoutManager(v.getContext());
-    mRecyclerView.setLayoutManager(mlayoutManager);
-    mAdapter = new myAdapter(skill);
-    mRecyclerView.setAdapter(mAdapter);
-}catch(NullPointerException npe){
+    }catch(NullPointerException npe){
     npe.getMessage();
-    mRecyclerView.setVisibility(View.GONE);
-    emptyview.setVisibility(View.VISIBLE);
+   // mRecyclerView.setVisibility(View.GONE);
+   // emptyview.setVisibility(View.VISIBLE);
 
 }
         //    mRecyclerView.setVisibility(View.GONE);
@@ -108,16 +90,22 @@ public class Search_Json  extends Fragment {
         return v;
     }
 
-    private class Load_from_provider extends AsyncTask<Void, String, String> {
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+
+    }
+ private class Load_from_provider extends AsyncTask<Void, String, String> {
 
         @Override
         protected String doInBackground(Void... params) {
             JSONObject ja = new JSONObject();
             JSONArray jsonArray = null;
+            String Url;
+            String result=" ";
 
-
-
-            Uri uri = Uri.parse(PREFIX + "feeds");
+/*            Uri uri = Uri.parse(PREFIX + "feeds");
             Cursor cursor = contentResolver.query(uri, null, null, null, null);
             try {
                 while (cursor.moveToNext()){
@@ -128,23 +116,59 @@ public class Search_Json  extends Fragment {
                     ja.put("address", cursor.getString(cursor.getColumnIndexOrThrow(DataContract.feeds.ADDRESS)));
                     ja.put("location", cursor.getString(cursor.getColumnIndexOrThrow(DataContract.feeds.LOCATION)));
                     jsonArray.put(ja);
-                }
-                //jsonArray = new JSONArray(ja);
-                //jsonArray.put(ja);
+            try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(routes.BY_LIMIT);
 
-            } catch (JSONException j) {
-                j.printStackTrace();
+            HttpResponse response = httpclient.execute(get);
+            result = EntityUtils.toString(response.getEntity());
+
+        }
+                jsonArray = new JSONArray(ja);
+                jsonArray.put(ja);
+             catch (IOException i){
+                i.getMessage();
+            }*/
+            try{
+                Url = routes.BY_LIMIT;
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet get = new HttpGet(Url);
+                Log.d("url", Url);
+
+                HttpResponse response = httpclient.execute(get);
+                 result = EntityUtils.toString(response.getEntity());
+                Log.d("result", result);
+
+
+                //JSONArray rs = new JSONArray(result);
+
+//                skill = SkillModel.getData(ja);
+
+
+
+            } catch (Throwable i){
+                Log.d("search", "search");
+                i.getMessage();
             }
 
-            return jsonArray.toString();
+            return result;
         }
 
-        @Override
+   @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             try {
                 JSONArray jsonFromString = new JSONArray(s);
                 skill = SkillModel.getData(jsonFromString);
+                mAdapter = new myAdapter(skill);
+                mRecyclerView.setAdapter(mAdapter);
+
+                Log.d("skills", skill.toString());
+                //mAdapter.notifyDataSetChanged();
+       //         mRecyclerView.setVisibility(View.VISIBLE);
+         //       emptyview.setVisibility(View.GONE);
+            //mAdapter.notifyDataSetChanged();
+
             } catch (JSONException j) {
                 j.getMessage();
             }

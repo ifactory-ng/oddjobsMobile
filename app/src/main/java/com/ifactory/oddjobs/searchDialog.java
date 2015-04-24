@@ -1,6 +1,7 @@
 package com.ifactory.oddjobs;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +21,7 @@ public class searchDialog extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       final Context c = getApplicationContext();
         setContentView(R.layout.search_dialog);
         location = (TextView) findViewById(R.id.search_location);
         search_query = (TextView) findViewById(R.id.search_query);
@@ -27,10 +29,11 @@ public class searchDialog extends Activity {
         search.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), profile.class);
+                Intent intent = new Intent(c, profile.class);
                 intent.putExtra("location", location.getText().toString());
                 intent.putExtra("query", search_query.getText().toString());
                 startActivity(intent);
+
 
             }
         });

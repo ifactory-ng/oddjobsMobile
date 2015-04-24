@@ -3,53 +3,39 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/userlayoutproduct"
     >
-
-<android.support.v7.widget.CardView
-    android:layout_width="350dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="46dp"
-    android:id="@+id/view"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp">
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:id="@+id/fr"
+        android:background="#969">
     <TextView
         android:layout_width="match_parent"
         android:layout_gravity="center"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_height="wrap_content"
         android:id="@+id/user_product_name"
-        android:layout_marginTop="10dp"/>
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="#fff"
+        android:layout_marginTop="24dp"
+        android:layout_alignStart="@+id/user_product_phone"
+        android:layout_below="@+id/textView2"
+        android:layout_alignRight="@+id/user_product_location"
+        android:layout_alignEnd="@+id/user_product_location" />
+    </FrameLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="5dp"
         android:id="@+id/user_product_desc"
         android:layout_weight="0.31"
-         />
-    </RelativeLayout>
+       android:layout_below="@+id/fr"
+        android:layout_above="@+id/user_product_phone"
+        android:layout_alignRight="@+id/user_product_location"
+        android:layout_alignEnd="@+id/user_product_location"
+        android:layout_marginTop="24dp" />
 
-</android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-    android:layout_width="350dp"
-    android:layout_height="wrap_content"
 
-    android:layout_below="@+id/view"
-        android:layout_marginTop="105dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
-
-        <RelativeLayout
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,18 +59,27 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="24dp"
             android:drawableLeft="@drawable/call"
+            android:layout_below="@+id/fr"
             android:layout_alignStart="@+id/user_product_address"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/user_product_phone"/>
-
-    <RatingBar
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBottom="@+id/ratingBar"
+    android:text="Rating:"
+    android:layout_alignStart="@+id/user_product_phone"
+    android:textAppearance="?android:textAppearanceLarge"
+    android:id="@+id/textView4" />
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_product_address"
         android:id="@+id/ratingBar"
+        android:layout_marginTop="24dp"
         android:layout_marginLeft="16dp"/>
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+
+
 </RelativeLayout>

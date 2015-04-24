@@ -30,8 +30,11 @@ public class PostData implements Callable<String> {
     public String call() throws Exception {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(URI);
+        Log.d("url", URI);
         //httpPost.setHeader("Content-Type", "application/json");
-        httpPost.setHeader("Accept-Encoding", "application/json");
+   //     httpPost.setHeader("Accept-Encoding", "application/json");
+        //httpPost.setHeader("Accept-Language", "en-US");
+        httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
         httpPost.setHeader("Accept-Language", "en-US");
 
         httpPost.setEntity(new UrlEncodedFormEntity(myList));

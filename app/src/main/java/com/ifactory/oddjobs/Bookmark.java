@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by smilecs on 4/15/15.
  */
-public class Bookmark extends Fragment {
+public class Bookmark extends ListFragment {
     BookmarkAdapter BA;
     ArrayList<BookmarkModel> BM;
     JSONArray ja;
@@ -80,6 +81,8 @@ public class Bookmark extends Fragment {
                 j.getMessage();
                 Toast tm = Toast.makeText(c, "unable to access data or you have no stored bookmarks", Toast.LENGTH_LONG);
                 tm.show();
+            }catch (NullPointerException n){
+                n.getMessage();
             }
         }
     }

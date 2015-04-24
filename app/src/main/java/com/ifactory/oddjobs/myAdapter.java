@@ -27,18 +27,17 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView desc, user_name, locale, addr, skills;
-        public RatingBar rating;
+        public TextView desc, user_name, locale, addr, skills, rating;
         Context c;
 
         public ViewHolder(View v){
             super(v);
-
+c = v.getContext();
             desc = (TextView) v.findViewById(R.id.description);
             skills = (TextView) v.findViewById(R.id.skill_name);
             user_name = (TextView) v.findViewById(R.id.skillusername);
             locale = (TextView) v.findViewById(R.id.skill_location);
-            rating = (RatingBar) v.findViewById(R.id.ratingBar2);
+          //  rating = (TextView) v.findViewById(R.id.rBar2);
             addr = (TextView) v.findViewById(R.id.skill_address);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -46,6 +45,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
                     Log.d("recycler", desc.getText().toString());
                     SkillModel md = (SkillModel) v.getTag();
                     Intent i = new Intent(c, product_result.class);
+                    Log.d("id", md.id.toString());
                     i.putExtra("id", md.id);
                     c.startActivity(i);
 
@@ -70,13 +70,22 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
         holder.addr.setText(model.addr);
         holder.user_name.setText(model.username);
         holder.locale.setText(model.location);
-        holder.rating.setNumStars(model.rating);
+        //holder.rating.setText(model.rating);
 
 
     }
 
     @Override
     public int getItemCount() {
+
+        try{
+            if(skill.isEmpty()){
+                return 0;
+            }
+        }catch (NullPointerException npe){
+            npe.getMessage();
+            return 0;
+        }
 
         return skill.size();
     }
