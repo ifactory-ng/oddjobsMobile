@@ -18,11 +18,15 @@ import java.util.ArrayList;
  * Created by smilecs on 2/7/15.
  */
 public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder> {
+   // private final View.OnClickListener mOnClickListener = new View.OnClickListener();
+
     private ArrayList<SkillModel> skill;
     @Override
     public myAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.search, parent, false);
+        //v.setOnClickListener();
         ViewHolder vh = new ViewHolder(v);
+
         return vh;
     }
 
@@ -39,21 +43,24 @@ c = v.getContext();
             locale = (TextView) v.findViewById(R.id.skill_location);
           //  rating = (TextView) v.findViewById(R.id.rBar2);
             addr = (TextView) v.findViewById(R.id.skill_address);
-            v.setOnClickListener(new View.OnClickListener() {
+
+    v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d("recycler", desc.getText().toString());
-                    SkillModel md = (SkillModel) v.getTag();
+             /*       SkillModel md = (SkillModel) v.getTag();
+                    Log.d("loggging", md.toString());
+                    //Log.d("id", md.id.toString());
                     Intent i = new Intent(c, product_result.class);
-                    Log.d("id", md.id.toString());
                     i.putExtra("id", md.id);
                     c.startActivity(i);
 
 
 
-
+*/
                 }
             });
+
         }
     }
 

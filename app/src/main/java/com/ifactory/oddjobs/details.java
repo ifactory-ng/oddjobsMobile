@@ -241,6 +241,7 @@ if(id == "id") {
             }
             catch (IOException i){
                 i.getMessage();
+                Log.d("facebook", fbid);
             }
             return bitmap;
         }
