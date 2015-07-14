@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -17,10 +18,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class FragmentNavigationDrawer extends DrawerLayout {
     private ActionBarDrawerToggle drawerToggle;
     private ListView lvDrawer;
+    Context c;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
     private ArrayAdapter<String> drawerAdapter;
     private ArrayList<FragmentNavItem> drawerNavItems;
     private int drawerContainerRes;
@@ -93,6 +98,13 @@ public class FragmentNavigationDrawer extends DrawerLayout {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if(navItem.getTitle() == "Logout"){
+           c = getActivity();
+            sharedPref = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
+            editor = sharedPref.edit();
+            editor.clear();
+            editor.commit();
         }
 
         // Insert the fragment by replacing any existing fragment

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:orientation="vertical"
@@ -15,15 +15,21 @@
          />
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/emptyview"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/emptyview"
+        android:layout_marginTop="150dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_marginLeft="16dp"
+        android:text="Cannot reach internet connectivity!"/>
     <com.gc.materialdesign.views.ButtonFloat
+        layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="190dp"
+        android:layout_marginLeft="240dp"
+        android:layout_marginTop="345dp"
+
         materialdesign:iconDrawable="@mipmap/add_skill"
         android:id="@+id/floatadd"
         />
 
-</LinearLayout>
+</RelativeLayout>

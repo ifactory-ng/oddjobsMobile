@@ -19,7 +19,7 @@ import com.facebook.Session;
 
 
 public class profile extends ActionBarActivity implements skill.Communicator {
-private FragmentNavigationDrawer dlDrawer;
+    private FragmentNavigationDrawer dlDrawer;
     ContentResolver mResolver;
     String id;
     public static final String ACCOUNT = "com.ifactory.oddjobs";
@@ -41,7 +41,9 @@ private FragmentNavigationDrawer dlDrawer;
             dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.drawerList), R.layout.drawer_item, R.id.mainContent);
             if(id == "id"){
                 dlDrawer.addNavItem("Feeds", "Oddjobs", Search_Json.class);
-                dlDrawer.addNavItem("Login", "Login", fb_login.class);
+                //dlDrawer.addNavItem("Feeds", "Oddjobs", Search_Json.class);
+
+                  dlDrawer.addNavItem("Login", "Login", fb.class);
             }
             else {
 
@@ -49,6 +51,7 @@ private FragmentNavigationDrawer dlDrawer;
                 dlDrawer.addNavItem("Profile", "Oddjobs", details.class);
                 dlDrawer.addNavItem("Skill List", "Oddjobs", skill.class);
                 dlDrawer.addNavItem("Bookmarks", "Oddjobs", Bookmark.class);
+
 
 
             }
@@ -121,8 +124,8 @@ private FragmentNavigationDrawer dlDrawer;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
+        //Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
         Intent i = new Intent(getApplicationContext(), profile.class);
         startActivity(i);
 

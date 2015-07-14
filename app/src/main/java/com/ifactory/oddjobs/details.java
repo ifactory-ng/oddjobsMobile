@@ -17,8 +17,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.android.Facebook;
 import com.gc.materialdesign.views.ButtonFloat;
@@ -52,22 +54,23 @@ public class details extends android.support.v4.app.Fragment{
     //private OnFragmentInteractionListener mListener;
     TextView user_email, user_name, user_about, user_phone, user_address, user_location;
     Context c;
-    String email;
+//    String email;
     String name;
     String location;
     String phone;
     String about;
     String address;
+    Button edit;
     //JSONObject jObj;
     //String result;
     ImageView px;
     String id;
-    Bitmap pic;
+    //Bitmap pic;
     JSONObject ja = null;
     //RoundImage rd;
     SharedPreferences sharedpref;
     SharedPreferences.Editor editor;
-    ButtonFloat edit;
+
     String fbid;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,7 @@ public class details extends android.support.v4.app.Fragment{
          c = getActivity();
         Log.d("catch", "called2");
 //        c =g
+        new GetPic().execute();
         sharedpref = c.getSharedPreferences(c.getString(R.string.preference_file_name), c.MODE_PRIVATE);
         editor = sharedpref.edit();
         id = sharedpref.getString("_id", "id");
@@ -99,11 +103,13 @@ if(id == "id") {
             editor.putString("phone", ja.getString("phone"));
             editor.putString("about", ja.getString("about"));
             editor.putString("address", ja.getString("address"));
+            editor.apply();
         }
     } catch (JSONException e) {
         e.getMessage();
     }catch(NullPointerException npe){
         npe.getMessage();
+        Toast.makeText(getActivity(), "Cannot access profile data at this time", Toast.LENGTH_LONG).show();
     }
 }
 
@@ -113,7 +119,7 @@ if(id == "id") {
         phone = sharedpref.getString("phone", "please fill your profile");
         about = sharedpref.getString("about", "please fill your profile");
         name = sharedpref.getString("name", " ");
-        email = sharedpref.getString("email", "please fill your profile");
+  //      email = sharedpref.getString("email", "please fill your profile");
             }
 
     @Override
@@ -125,24 +131,23 @@ if(id == "id") {
         Log.d("catch", "called1");
 
         View v = inflater.inflate(R.layout.details, container, false);
-           user_email = (TextView) v.findViewById(R.id.email);
+           //user_email = (TextView) v.findViewById(R.id.email);
        user_name = (TextView) v.findViewById(R.id.name);
-        user_about = (TextView)v.findViewById(R.id.about);
+        user_about = (TextView)v.findViewById(R.id.abouttxt);
 
         user_location = (TextView) v.findViewById(R.id.location);
 
-        user_address = (TextView) v.findViewById(R.id.addr);
+        user_address = (TextView) v.findViewById(R.id.address);
 
         user_phone = (TextView) v.findViewById(R.id.phone);
-        px = (ImageView) v.findViewById(R.id.pro_pic);
-        user_email.setText(email);
+        px = (ImageView) v.findViewById(R.id.propic);
+    //    user_email.setText(email);
         user_name.setText(name);
         user_about.setText(about);
         user_location.setText(location);
         user_address.setText(address);
         user_phone.setText(phone);
-        new GetPic().execute();
-        edit = (ButtonFloat) v.findViewById(R.id.float_edit);
+     edit = (Button) v.findViewById(R.id.float_edit);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,7 +169,7 @@ if(id == "id") {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        Log.d("catch", "called");
+       /* Log.d("catch", "called");
         try {
         fbid = sharedpref.getString("id", "id");
         FutureTask<Bitmap> task = new FutureTask<Bitmap>(new Facebook_pic(fbid));
@@ -184,7 +189,7 @@ if(id == "id") {
 
         }catch (NullPointerException npe){
             npe.getMessage();
-        }
+        }*/
     }
 
     @Override
@@ -249,7 +254,7 @@ if(id == "id") {
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
-            px.setImageBitmap(pic);
+            px.setImageBitmap(bitmap);
         }
     }
 

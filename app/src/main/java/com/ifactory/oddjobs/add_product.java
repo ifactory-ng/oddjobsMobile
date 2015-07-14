@@ -42,7 +42,7 @@ import java.util.concurrent.FutureTask;
 public class add_product extends Fragment {
 
     EditText edit_fone, add, locale, tag, desc, p_name;
-   ButtonFlat submit;
+   Button submit;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -63,7 +63,7 @@ public class add_product extends Fragment {
         desc = (EditText) v.findViewById(R.id.desc);
         edit_fone = (EditText) v.findViewById(R.id.edit_phone);
         p_name = (EditText) v.findViewById(R.id.product_name);
-        submit = (ButtonFlat) v.findViewById(R.id.submit);
+        submit = (Button) v.findViewById(R.id.save);
         submit.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View v) {

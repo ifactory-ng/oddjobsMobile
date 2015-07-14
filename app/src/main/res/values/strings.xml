@@ -24,12 +24,13 @@
     <string name="negative">Cancel</string>
     <string name="search_location"> location!</string>
     <string name="search_query">what skill are you looking for?</string>
-    <string name="info_text">Login with Facebook to Continue</string>
+    <string name="info_text">Continue Profile Creation</string>
     <string name="info_text2">Please press the button below to </string>
     <string-array name="menu_item">
         <item>Profile</item>
         <item>Skill List</item>
         <item>Log Out</item>
     </string-array>
+    <string name="title_activity_review">review</string>
 
 </resources>

@@ -10,6 +10,7 @@ public class  routes {
     static final String GET_SKILLs = URI + "/api/Getskills/";
     static final String GET_SKILL = URI + "/api/Userskill/";
     static final String EDIT_PROFILE= URI + "/api/profile/";
+    static final String REVIEW = URI + "/api/Review/";
     static final String BOOKMARK = URI + "/api/Userbookmark/";
     static final String ADD_SKILL = URI + "/api/Getskills/";
     static final String AUTHENTICATE = URI + "/api/authenticate";

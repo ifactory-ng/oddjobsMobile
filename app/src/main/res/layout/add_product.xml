@@ -11,7 +11,7 @@
         android:id="@+id/tag_name"
         android:hint="add tags to your Skill separate with commas"
         android:layout_below="@+id/edit_phone"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_alignParentLeft="true"
@@ -19,12 +19,13 @@
 
 
     <EditText
-        android:layout_width="240dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:id="@+id/loc"
         android:layout_marginTop="15dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="120dp"
         android:hint="Location"
-        android:layout_alignStart="@+id/add"
         android:layout_below="@+id/add"
         />
     <TextView
@@ -38,16 +39,18 @@
         android:id="@+id/textView" />
 
     <EditText
-        android:layout_width="240dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:id="@+id/add"
         android:hint="Address"
-        android:layout_marginTop="230dp"
-        android:layout_alignEnd="@+id/submit"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="175dp"
+    android:layout_marginLeft="120dp"
   />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:drawableLeft="@drawable/home"
         android:layout_alignBottom="@+id/add"
         android:layout_alignStart="@+id/textView"/>
@@ -57,7 +60,7 @@
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="160dp"
         android:id="@+id/view"
         card_view:cardBackgroundColor="#1E88E5"
 
@@ -70,14 +73,14 @@
             android:layout_alignParentTop="true"
            android:layout_marginLeft="70dp"
             android:textColorHint="#fff5efff"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="20dp"
             android:textColor="#fff5efff" />
 
         <EditText
-            android:layout_width="315dp"
-            android:layout_height="100dp"
+            android:layout_width="270dp"
+            android:layout_height="80dp"
             android:inputType="textMultiLine"
-            android:layout_marginLeft="60dp"
+            android:layout_marginLeft="40dp"
             android:ems="10"
             android:hint="description"
             android:textColorHint="#fff5efff"
@@ -93,13 +96,16 @@
     android:layout_height="wrap_content"
     android:layout_alignStart="@+id/tag_name"
     android:layout_alignBottom="@+id/edit_phone"
-    android:drawableLeft="@drawable/call"/>
+    android:drawableLeft="@drawable/call"
+    android:layout_marginLeft="16dp"/>
     <EditText
 
         android:layout_height="wrap_content"
         android:id="@+id/edit_phone"
-        android:layout_width="240dp"
-        android:layout_alignStart="@+id/add"
+        android:layout_width="180dp"
+        android:layout_marginRight="16dp"
+
+        android:layout_marginLeft="70dp"
         android:layout_toRightOf="@+id/textView"
         android:layout_below="@+id/loc"
         android:hint="Phone"
@@ -112,7 +118,7 @@
         android:background="#1E88E5"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/tag_name"
-        android:layout_marginLeft="240dp"
+        android:layout_marginLeft="200dp"
         android:text="Submit" />
 
 

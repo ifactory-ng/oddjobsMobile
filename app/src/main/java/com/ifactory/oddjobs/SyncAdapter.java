@@ -64,7 +64,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private void GetFeeds(ContentProviderClient client)throws RemoteException, IOException, JSONException{
         ContentValues values = new ContentValues();
         HttpClient httpclient = new DefaultHttpClient();
-        HttpGet get = new HttpGet("http://10.0.2.2:8080/api/feeds");
+        HttpGet get = new HttpGet(routes.BY_LIMIT);
         HttpResponse response = httpclient.execute(get);
         String result = EntityUtils.toString(response.getEntity());
 

@@ -100,12 +100,14 @@ public class Search_Json  extends Fragment {
 
         @Override
         protected String doInBackground(Void... params) {
-            JSONObject ja = new JSONObject();
-            JSONArray jsonArray = null;
             String Url;
             String result=" ";
+/*            JSONObject ja = new JSONObject();
+            JSONArray jsonArray = null;
 
-/*            Uri uri = Uri.parse(PREFIX + "feeds");
+
+
+            Uri uri = Uri.parse(PREFIX + "feeds");
             Cursor cursor = contentResolver.query(uri, null, null, null, null);
             try {
                 while (cursor.moveToNext()){

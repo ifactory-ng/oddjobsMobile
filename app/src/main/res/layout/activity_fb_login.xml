@@ -20,7 +20,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:textColor="#999"
+        android:textColor="#fff"
         android:background="#ff130fa1" />
 
     <TextView
@@ -31,8 +31,17 @@
         android:textAlignment="center"
         android:textSize="20dp"
         android:textColor="#333"
-    android:layout_marginRight="30dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginTop="69dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/info_text2"
+        android:id="@+id/textView4"
+
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
